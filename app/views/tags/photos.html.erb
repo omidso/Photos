@@ -1,0 +1,9 @@
+<h1>Photo Tags</h1>
+
+<h2> Tag Name: '<%= @tag.name %>' </h2>
+
+<% @tag.photos.each do |photo| %>
+	<%= photo.name %><\br>
+<% end %>
+
+<%= link_to 'Back', tags_path %>

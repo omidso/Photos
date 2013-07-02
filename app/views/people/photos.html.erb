@@ -1,0 +1,19 @@
+<h2><%= @person.name %></h2>
+		
+<div id="galleria">
+	<% @person.photos.each do |photo| %>
+		<% dir= Pathname(photo.path).dirname.to_s %>
+		<% largename= Pathname(photo.path).basename.to_s %>
+		<% smallname= "s_" + largename %>
+		<% thumbname= "tn_" + largename %>
+		<% largepath= "assets/" + dir + "/" + largename %>
+		<% smallpath= dir + "/" + smallname %>
+		<% thumbpath= dir + "/" + thumbname %> 
+		<% description= "Names: " + photo.people.collect { |person| link_to person.name, photos_person_path(person) }.join(", ") %>
+		<%= link_to(largepath) do %>
+			<%= image_tag(thumbpath, :'data-description' => description ) %>
+		<% end %>
+	<% end %>	
+</div>
+	
+<div id="footer">&copy; 2013 Omid Sojoodi</div>

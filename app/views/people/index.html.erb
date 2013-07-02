@@ -1,0 +1,41 @@
+<h1>Listing People</h1>
+
+<%= form_tag people_path, :method => :get do %>
+	<p>
+		<!-- <%= text_field_tag :search, "data-pre" => @people.map(&:attributes).to_json %> !-->
+		<%= text_field_tag 'search', params[:search] %>
+		<%= submit_tag "Filter", :name => nil %>
+        </script>
+	</p>
+<% end %>
+
+<% 
+=begin %>
+<%= form_tag people_path, :method => :get do %>
+	<p>
+		<%= text_field_tag :search %>
+		<%= submit_tag "Filter", :name => nil %>
+	</p>
+<% end %>	
+<% 
+=end %>
+
+<table>
+  <tr>
+    <th>Name</th>
+  </tr>
+
+<% @people.each do |person| %>
+  <tr>
+  	<td><%= person.name %></td>
+    <td><%= link_to 'Show', person %></td>
+    <td><%= link_to 'Pictures', photos_person_path(person) %></td>
+    <td><%= link_to 'Edit', edit_person_path(person) %></td>
+    <td><%= link_to 'Destroy', person, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br>
+
+<%= link_to 'New Person', new_person_path %>

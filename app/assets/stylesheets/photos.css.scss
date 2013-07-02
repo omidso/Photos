@@ -1,0 +1,22 @@
+// Place all the styles related to the Photos controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#galleria {
+  width: 800px;
+  height: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #000;
+}
+#facebox {
+  z-index: 9999;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 0px;
+  height: 0px;
+  border-style: solid; 
+  border-width: 1px;
+  border-color: #ccc;
+  display: none;
+}
