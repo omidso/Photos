@@ -75,28 +75,16 @@
     /* IE7 */ zoom:1;
 }
 .galleria-info-title {
-    font: bold 10px/1.1 arial,sans-serif;
+    font: bold 12px/1.1 arial,sans-serif;
     margin: 0;
     color: #fff;
     margin-bottom: 7px;
 }
 .galleria-info-description {
-	text-align: left; /* [OS] added */
-	font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Helvetica, Arial, sans-serif; /* [OS] added */
-    /* font: 10px/1.4 georgia,serif; [OS] removed */
+    font: italic 12px/1.4 georgia,serif;
     margin: 0;
-    color: #aaa;
+    color: #bbb;
 }
-
-/* [OS] added */
-.galleria-info-description a {
-	color: #aaa;
-}
-.galleria-info-description a:hover {
-	color: #eee;
-}
-/* [OS] end added */
-
 .galleria-info-close {
     width: 9px;
     height: 9px;

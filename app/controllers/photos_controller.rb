@@ -2,8 +2,8 @@ class PhotosController < ApplicationController
   # GET /photos
   # GET /photos.json
   def index
-    #@photos = Photo.all
-    @photos = Photo.where("path LIKE '%2000%'")
+    @photos = Photo.all
+    #@photos = Photo.where("path LIKE '%2000%'")
 
     respond_to do |format|
       format.html # index.html.erb

@@ -1,10 +1,19 @@
 class NewMigration < ActiveRecord::Migration
   def change
+    
+    create_table :albums do |t|
+      t.string :name
+      t.string :authkey
+      t.string :foldername
+
+      t.timestamps
+    end
+
     create_table(:photos) do |t|
-      t.column :path,   :string, :null => false
-      t.column :width,  :integer
-      t.column :height, :integer
-      t.column :date,   :timestamp
+      t.column :name, :string, :null => false
+      t.belongs_to :album
+      
+      t.timestamps
     end
     
     create_table(:tags) do |t|
@@ -18,6 +27,8 @@ class NewMigration < ActiveRecord::Migration
     create_table(:photo_tags) do |t|
       t.integer :photo_id
       t.integer :tag_id
+      
+      t.timestamps
     end
     
     create_table(:facelocations) do |t|
@@ -27,6 +38,9 @@ class NewMigration < ActiveRecord::Migration
       t.column  :yloc,  :integer
       t.column  :width, :integer
       t.column  :height,:integer
+      
+      t.timestamps
     end
+    
   end
 end

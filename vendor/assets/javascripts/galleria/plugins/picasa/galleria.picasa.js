@@ -34,10 +34,12 @@ var PATH = Galleria.utils.getScriptPath();
 Galleria.Picasa = function() {
 
     this.options = {
-        max: 30,                       // photos to return
+        max: 200,                      // photos to return
         imageSize: 'medium',           // photo size ( thumb,small,medium,big,original ) or a number
         thumbSize: 'thumb',            // thumbnail size ( thumb,small,medium,big,original ) or a number
-        complete: function(){}         // callback to be called inside the Galleria.prototype.load
+        complete: function(){},        // callback to be called inside the Galleria.prototype.load
+        visability: 'public',          // [OS] public by default
+        authkey: 'void'                // [OS] don't have one by default
     };
 
 };
@@ -119,7 +121,8 @@ Galleria.Picasa.prototype = {
 
         params = $.extend({
             'kind': 'photo',
-            'access': 'public',
+            'access': this.options.visability, // [OS] public or private?
+            'authkey': this.options.authkey,   // [OS] pass the authkey
             'max-results': this.options.max,
             'thumbsize': this._getSizes().join(','),
             'alt': 'json-in-script',
@@ -212,17 +215,14 @@ Galleria.Picasa.prototype = {
 
         $.each( data, function() {
 
-			/* [OS] problematic code, doesn't seem to always work */
             img = this.media$group.media$thumbnail;
-            
-            if (img && img.length>2) {
-	            gallery.push({
-    	            thumb: img[0].url,
-                	image: img[1].url,
-                	big: img[2].url,
-                	title: this.summary.$t
-               })	
-            }
+
+            gallery.push({
+                thumb: img[0].url,
+                image: img[1].url,
+                big: img[2].url,
+                title: this.summary.$t
+            });
         });
 
         callback.call( this, gallery );

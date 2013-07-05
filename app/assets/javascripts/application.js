@@ -10,6 +10,22 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+// [OS] removed = require_tree .
+
 // = require jquery
 // = require jquery_ujs
-// = require_tree .
+// = require bootstrap/bootstrap-transition
+// = require bootstrap/bootstrap-alert
+// = require bootstrap/bootstrap-modal
+// = require bootstrap/bootstrap-dropdown
+// = require bootstrap/bootstrap-scrollspy
+// = require bootstrap/bootstrap-tab
+// = require bootstrap/bootstrap-tooltip
+// = require bootstrap/bootstrap-popover
+// = require bootstrap/bootstrap-button
+// = require bootstrap/bootstrap-collapse
+// = require bootstrap/bootstrap-carousel
+// = require bootstrap/bootstrap-typeahead
+// = require galleria/galleria-1.2.9
+// = require galleria/themes/classic/galleria.classic
+

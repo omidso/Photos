@@ -1,14 +1,12 @@
 class Photo < ActiveRecord::Base
-  attr_accessible :path, :width, :height, :date
+  attr_accessible :name
   
-  validates :path,    :presence => true
-  validates :width,   :numericality => {:greater_than => 0}
-  validates :height,  :numericality => {:greater_than => 0}
-  validates :date,    :presence => true 
+  validates :name, :presence => true
   
   has_and_belongs_to_many :tags, :join_table => 'photo_tags'
   has_many :facelocations
   has_many :people, :through => :facelocations
+  belongs_to :albums
 
   def names_sorted_string
     names= ""

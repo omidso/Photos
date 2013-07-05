@@ -6,62 +6,78 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-require 'Z:/RailsInstaller/Ruby1.9.3/lib/ruby/gems/1.9.1/gems/exifr-1.1.3/lib/exifr.rb'
 require 'csv'
+require 'pathname'
 
 # First delete all data
 Person.delete_all
 Photo.delete_all
 Tag.delete_all
 Facelocation.delete_all
+Album.delete_all
 
 # globals
-gPictureLocation = 'z:\Omid\Aptana Studio 3 Workspace\Photos\app\assets\images'
-gFacesFile = 'faces.csv'
+gAlbumDataFile = 'z:/data/pictures/picasa.online.albums.csv'
+gFacesFile = 'z:/data/pictures/faces.csv'
+gCSVAlbumNameColumn = 'online album name'
+gCSVAuthKeyColumn = 'auth key'
+gCSVFolderNameColumn = 'folder name'
+gCSVPictureFileColumn = 'picture file'
+gCSVOriginalPhotoPath = 'original image path'
+gCSVPersonColumn = 'person'
+gCSVFaceX = 'face x'
+gCSVFaceY = 'face y'
+gCSVFaceWidth = 'face width'
+gCSVFaceHeight = 'face height'
 
-# goto the picture location
-Dir.chdir(gPictureLocation)
-
-# TODO: some pictures don't have the date and all the timezones are off
-# Nextstep: stome picture not getting created, unknown why (maybe because of dates missing), look for 0105A-11.jpg in folder 2000
-Dir.glob("**/*.jpg") do |picture_file| # note one extra "*"
+# open the album file and start going through it
+CSV.foreach(gAlbumDataFile, :headers => true, :col_sep => ",") do |row|
   
-  # get the EXIFR info
-  extInfo= EXIFR::JPEG.new(picture_file)
+  # find or create the album
+  album= Album.where(:foldername => row[gCSVFolderNameColumn]).first_or_create(:name => row[gCSVAlbumNameColumn], 
+                                                                               :authkey => row[gCSVAuthKeyColumn])
   
-  # make sure there is a creation date (not all pictures have them)
-  createTime= extInfo.date_time_original
-  
-  # if no creation date, use the file creation time
-  if (createTime == nil)
-    createTime= Pathname.new(picture_file).ctime
-  end
-  
-  # finally, insert the picture info into the database
-  Photo.create(path: picture_file,
-               width: extInfo.width, 
-               height: extInfo.height, 
-               date: createTime)
+  # create the photo & associate with the album
+  photo= Photo.create(name: row[gCSVPictureFileColumn])
+  album.photos << photo
 end
 
 # Now read the faces file and create associations
 CSV.foreach(gFacesFile, :headers => true, :col_sep => ";") do |row|
   
-  # get the directory name as a string after converting slashes
-  sPath= row['original image path'].gsub('\\', '/')
-
   # find or create the person
-  person= Person.where(:name => row['person']).first_or_create()
+  person= Person.where(:name => row[gCSVPersonColumn]).first_or_create()
   
-  # find the photo
-  photo= Photo.where(:path=> sPath).first
-
-  # if the photo is found, create the association
-  if (photo)
-    fl= photo.facelocations.create(:xloc => row['face x'],
-                                   :yloc => row['face y'],
-                                   :width => row['face width'],
-                                   :height => row['face height'])
-    person.facelocations << fl
-  end
-end
+  # get the full path as a path after converting slashes
+  fullPicturePath= Pathname(row[gCSVOriginalPhotoPath].gsub('\\', '/'))
+  
+  # get the picture name
+  pictureName= fullPicturePath.basename.to_s; 
+  
+  # get the folder name
+  folderName= fullPicturePath.dirname.basename.to_s;
+  
+  # find the album
+  album= Album.where(:foldername => folderName).first
+  
+  # found?
+  if (album)
+    
+    # look for the picture
+    photo= album.photos.where(:name => pictureName).first
+    
+    # found ?
+    if (photo)
+      
+      # create the facelocation
+      fl= photo.facelocations.create(:xloc => row[gCSVFaceX],
+                                     :yloc => row[gCSVFaceY],
+                                     :width => row[gCSVFaceWidth],
+                                     :height => row[gCSVFaceHeight])
+      person.facelocations << fl
+      
+    end # if (photo)
+  
+  end # if (album)
+  
+end # CSV.foreach(gFacesFile, :headers => true, :col_sep => ";") do |row|

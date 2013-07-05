@@ -1,4 +1,7 @@
 Photos::Application.routes.draw do
+  resources :albums
+
+
   devise_for :admin_users, ActiveAdmin::Devise.config
 
   resources :photos do
@@ -21,7 +24,8 @@ Photos::Application.routes.draw do
   end
   
   get "home/index"
-
+  get "static_pages/about"
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

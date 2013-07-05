@@ -1,19 +1,35 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag    "photos", media:"all" %>
+  <%= javascript_include_tag "photos"%>
+<% end %>
+
 <h2><%= @person.name %></h2>
-		
+
 <div id="galleria">
-	<% @person.photos.each do |photo| %>
-		<% dir= Pathname(photo.path).dirname.to_s %>
-		<% largename= Pathname(photo.path).basename.to_s %>
-		<% smallname= "s_" + largename %>
-		<% thumbname= "tn_" + largename %>
-		<% largepath= "assets/" + dir + "/" + largename %>
-		<% smallpath= dir + "/" + smallname %>
-		<% thumbpath= dir + "/" + thumbname %> 
-		<% description= "Names: " + photo.people.collect { |person| link_to person.name, photos_person_path(person) }.join(", ") %>
-		<%= link_to(largepath) do %>
-			<%= image_tag(thumbpath, :'data-description' => description ) %>
-		<% end %>
-	<% end %>	
+  <% @person.photos.each do |photo| %>
+    <% dir= Pathname(photo.path).dirname.to_s %>
+    <% largename= Pathname(photo.path).basename.to_s %>
+    <% smallname= "s_" + largename %>
+    <% thumbname= "tn_" + largename %>
+    <% largepath= "/assets/" + dir + "/" + largename %>
+    <% smallpath= dir + "/" + smallname %>
+    <% thumbpath= dir + "/" + thumbname %>
+    <% names= "Names: " %> 
+    <% photo.people.order('name ASC').each do |person| %>
+      <% fl= photo.facelocations.where("person_id = ?", person.id).first %>
+      <% if (names != "Names: ") %>
+        <% names += ", " %>
+      <% end %>
+      <% names += link_to person.name, photos_person_path(person), class: "pname", :'data-xloc' => fl.xloc, :'data-yloc' => fl.yloc, 
+          :'data-width' => fl.width, :'data-height' => fl.height %> 
+    <% end %>
+
+    <%= link_to(largepath) do %>
+      <%= image_tag(thumbpath, :'data-description' => names) %>
+    <% end %>
+  <% end %> 
 </div>
-	
-<div id="footer">&copy; 2013 Omid Sojoodi</div>
+
+<%= render "layouts/footer" %>
+
+<div id="facebox"></div>

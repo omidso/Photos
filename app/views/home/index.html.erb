@@ -1,6 +1,46 @@
-<h1>Photos & Tags</h1>
-<%= link_to "Photos", photos_path %>
+<!-- Carousel
+================================================== -->
+<div id="myCarousel" class="carousel slide" data-interval="false">
+  <div class="carousel-inner">
+    <div class="item active">
+      <img src="/assets/Pictures/Front Page/1.jpg" alt="">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>Victoria & Albert Museum</h1>
+          <a class="btn btn-large btn-primary" href="#">Browse album</a>
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <img src="/assets/Pictures/Front Page/2.jpg" alt="">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>Kew Gardens</h1>
+          <a class="btn btn-large btn-primary" href="#">Browse album</a>
+        </div>
+      </div>
+    </div>
+    <div class="item">
+      <img src="/assets/Pictures/Front Page/3.jpg" alt="">
+      <div class="container">
+        <div class="carousel-caption">
+          <h1>Tanglefoot!</h1>
+          <a class="btn btn-large btn-primary" href="#">Browse album</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+  <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+</div><!-- /.carousel -->
 
-<%= image_tag "Pictures/Various%20New%20Year's%20Eve%20(from%20Dipu)/2000/s_0105A-04.jpg" %>
+<%= render "layouts/footer" %>
 
-<%= link_to "Tags", tags_path %>
+<script>
+  ! function($) {
+    $(function() {
+      $('#myCarousel').carousel()
+    })
+  }(window.jQuery)
+</script>
+

@@ -46,13 +46,23 @@ ActiveRecord::Schema.define(:version => 20130630191821) do
   add_index "admin_users", ["email"], :name => "index_admin_users_on_email", :unique => true
   add_index "admin_users", ["reset_password_token"], :name => "index_admin_users_on_reset_password_token", :unique => true
 
+  create_table "albums", :force => true do |t|
+    t.string   "name"
+    t.string   "authkey"
+    t.string   "foldername"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "facelocations", :force => true do |t|
-    t.integer "photo_id"
-    t.integer "person_id"
-    t.integer "xloc"
-    t.integer "yloc"
-    t.integer "width"
-    t.integer "height"
+    t.integer  "photo_id"
+    t.integer  "person_id"
+    t.integer  "xloc"
+    t.integer  "yloc"
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "people", :force => true do |t|
@@ -60,15 +70,17 @@ ActiveRecord::Schema.define(:version => 20130630191821) do
   end
 
   create_table "photo_tags", :force => true do |t|
-    t.integer "photo_id"
-    t.integer "tag_id"
+    t.integer  "photo_id"
+    t.integer  "tag_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "photos", :force => true do |t|
-    t.string   "path",   :null => false
-    t.integer  "width"
-    t.integer  "height"
-    t.datetime "date"
+    t.string   "name",       :null => false
+    t.integer  "album_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "tags", :force => true do |t|

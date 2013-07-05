@@ -15,7 +15,7 @@
             .cred{margin-top:20px;font-size:11px;}
 
             /* This rule is read by Galleria to define the gallery height: */
-            #galleria{height:320px;}
+            #galleria{height:500px;width:640px;}
 
         </style>
 
@@ -26,7 +26,7 @@
         <script src="../../galleria-1.2.9.min.js"></script>
 
         <!-- load picasa plugin -->
-        <script src="galleria.picasa.min.js"></script>
+        <script src="galleria.picasa.js"></script>
 
     </head>
 <body>
@@ -45,9 +45,16 @@
     // Load the classic theme
     Galleria.loadTheme('../../themes/classic/galleria.classic.min.js');
 
+//https://picasaweb.google.com/omid.sojoodi/20100916Lisbon03?authuser=0&authkey=Gv1sRgCNbMz93l0pW4wgE&feat=directlink
+
     Galleria.run('#galleria', {
         // The user & album. This example fetches the album "Demo" from the user "galleriajs"
-        picasa: 'useralbum:galleriajs/Demo'
+        // https://picasaweb.google.com/omid.sojoodi/20100916Lisbon03?authuser=0&authkey=Gv1sRgCNbMz93l0pW4wgE&feat=directlink#
+        // https://picasaweb.google.com/omid.sojoodi/20100916Lisbon?authuser=0&authkey=Gv1sRgCJrwhMHl74PhjwE&feat=directlink
+        // https://picasaweb.google.com/omid.sojoodi/20101022Shanghai?authuser=0&authkey=Gv1sRgCNDml62XxL_IxwE&feat=directlink
+        picasaOptions: {visability: 'private', authkey: 'Gv1sRgCNbMz93l0pW4wgE'}, 
+        picasa: 'useralbum:omid.sojoodi/20100916Lisbon03'
+        //picasa: 'user:omid.sojoodi'
     });
 
     </script>
