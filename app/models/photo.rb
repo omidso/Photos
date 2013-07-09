@@ -1,5 +1,5 @@
 class Photo < ActiveRecord::Base
-  attr_accessible :name
+  attr_accessible :name, :width, :height, :orientation
   
   validates :name, :presence => true
   

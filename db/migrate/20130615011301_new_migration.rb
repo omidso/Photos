@@ -3,14 +3,20 @@ class NewMigration < ActiveRecord::Migration
     
     create_table :albums do |t|
       t.string :name
+      t.string :description
+      t.string :onlinename
       t.string :authkey
       t.string :foldername
+      t.datetime :albumdate
 
       t.timestamps
     end
 
     create_table(:photos) do |t|
       t.column :name, :string, :null => false
+      t.integer :width
+      t.integer :height
+      t.integer :orientation
       t.belongs_to :album
       
       t.timestamps

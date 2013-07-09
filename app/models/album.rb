@@ -1,9 +1,11 @@
 class Album < ActiveRecord::Base
-  attr_accessible :authkey, :name, :foldername
+  attr_accessible :name, :description, :authkey, :onlinename, :foldername, :albumdate
   
-  validates :authkey, :presence => true
   validates :name, :presence => true
+  validates :authkey, :presence => true
+  validates :onlinename, :presence => true
   validates :foldername, :presence => true 
+  validates :albumdate, :presence => true
    
   has_many :photos
     

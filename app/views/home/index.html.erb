@@ -1,34 +1,27 @@
-<!-- Carousel
-================================================== -->
+<% content_for :head do %>
+<%= stylesheet_link_tag    "home", media:"all" %>
+<%= javascript_include_tag "home"%>
+<% end %>
+
 <div id="myCarousel" class="carousel slide" data-interval="false">
   <div class="carousel-inner">
-    <div class="item active">
-      <img src="/assets/Pictures/Front Page/1.jpg" alt="">
-      <div class="container">
-        <div class="carousel-caption">
-          <h1>Victoria & Albert Museum</h1>
-          <a class="btn btn-large btn-primary" href="#">Browse album</a>
+    <% first= true %>
+    <% albums= Album.order("albumdate DESC").limit(3) %>
+    <% albums.each do |album| %>
+      <div class=<% if (first) %> "active item" > <% else %> "item" > <% end %>
+        <% first= false %>
+        <%= link_to(album) do %>
+          <%= image_tag("", :class => "album-thumb", :'data-name' => album.onlinename, :'data-authkey' => album.authkey) %>
+        <% end %>
+        <div class="container">
+          <div class="carousel-caption">
+            <h2><%= album.name %></h2>
+            <h3><%= album.description %></h3>
+            <h4><%= album.albumdate.strftime("%B %d, %Y") %></h4>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="item">
-      <img src="/assets/Pictures/Front Page/2.jpg" alt="">
-      <div class="container">
-        <div class="carousel-caption">
-          <h1>Kew Gardens</h1>
-          <a class="btn btn-large btn-primary" href="#">Browse album</a>
-        </div>
-      </div>
-    </div>
-    <div class="item">
-      <img src="/assets/Pictures/Front Page/3.jpg" alt="">
-      <div class="container">
-        <div class="carousel-caption">
-          <h1>Tanglefoot!</h1>
-          <a class="btn btn-large btn-primary" href="#">Browse album</a>
-        </div>
-      </div>
-    </div>
+    <% end %>
   </div>
   <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
   <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>

@@ -5,23 +5,6 @@ $(function() {
 	})
 	Galleria.run('#galleria');
 		
-	// var picasa= new Galleria.Picasa();
-	//picasa.setOptions({max: 20, thumbSize: 'medium'}).search('birds', function(data) {Galleria.get(0).load(data);});
-	
-	// show the gallery
-	//$("#oGallery").galleryView({
-//	  panel_scale: 'fit',
-	  //panel_style: 'track',
-	  //panel_width: 800,
-    //panel_height: 500,
-    //frame_width: 55,
-    //enable_overlays: true,
-    //show_filmstrip_nav: false,
-    //infobar_opacity: 0.75,
-    //easing: 'linear',
-    //start_frame: 1
-	//});
-	
 	// draw box when the mouse enters a name
 	$("body").on("mouseenter", ".pname", function() {
 

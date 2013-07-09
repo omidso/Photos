@@ -1,60 +1,150 @@
 $(function() {
 
-  //Galleria.run("#galleria");
+  // what page are we on?
+  page= $(".this-page").attr("data-type"); 
+  if (page == "all albums") {
     
-  defaults= {
-    picasaUrl: "https://picasaweb.google.com/data/feed/api/user/",
-    userName: "omid.sojoodi",
-    album: "20100916Lisbon03",
-    authKey: "Gv1sRgCNbMz93l0pW4wgE",
-    photoSize: 1600,
-    thumbSize: "104u,640u,1280u",
-    maxResults: 200
-  };
+    // iterate through the thumbs
+    $(".album-thumb").map(function() {
+      var self= $(this);
+      var url= "https://picasaweb.google.com/data/feed/api/user/omid.sojoodi/album/" +
+             self.attr("data-name") +
+             '?&kind=photo&access=private&authkey=' +
+             self.attr("data-authkey") + 
+             '&max-results=1&thumbsize=200c&alt=json-in-script&callback=?';
+      imgurl= "";
+      $.getJSON(url, function(data) {
+        imgurl= data.feed.entry[0].media$group.media$thumbnail[0].url;
+        self.attr("src", imgurl);
+      });
+    });
+  }
   
-  settings= {};
-  
-  var url= defaults.picasaUrl + 
-           defaults.userName +
-           '/album/' +
-           ((settings.album) ? settings.album : defaults.album) +
+  // assume we're on a particular album page
+  else {
+    
+    // get all the pictures for this album
+    var url= "https://picasaweb.google.com/data/feed/api/user/omid.sojoodi/album/" +
+           $("#galleria").attr("data-name") +
            '?&kind=photo&access=private&authkey=' +
-           ((settings.authKey) ? settings.authKey : defaults.authKey) +
-           '&max-results=' +
-           ((settings.maxResults) ? settings.maxResults : defaults.maxResults) +
-           '&thumbsize=' +
-           ((settings.thumbSize) ? settings.thumbSize : defaults.thumbSize) +
-           '&alt=json-in-script&callback=?';
-           
-        $.getJSON(url, function(data) {
-          var img, picData= [], i=0;
+           $("#galleria").attr("data-authkey") +
+           '&full-exif=true&max-results=500&thumbsize=104u,1200u,1600u&alt=json-in-script&callback=?';
+    
+    // populate the pictures
+    $.getJSON(url, function(data) {
+      var img, picData= [], i=0;
 
-          $.each( data.feed.entry, function() {
-            img = this.media$group.media$thumbnail;
-            picData[i++]= {thumb: img[0].url, image: img[1].url, big: img[2].url, title: this.media$group.media$title.$t};
-          });
-          
-          Galleria.run('#galleria', {dataSource: picData});
+      $.each( data.feed.entry, function() {
+        img = this.media$group.media$thumbnail;
+        exif= this.exif$tags;
+        
+        sTime= "?";
+        if (exif.exif$time) {
+          time= new Date(parseInt(exif.exif$time.$t))
+          sTime= time.toString();
+        }
+        
+        var desc= "Focal Length: " + (exif.exif$focallength ? exif.exif$focallength.$t : "?") + " mm f/" + 
+                  (exif.exif$fstop ? exif.exif$fstop.$t : "?") + "<br>" +
+                  "Exposure: " + (exif.exif$exposure ? exif.exif$exposure.$t : "?") + "s" + "<br>" +
+                  "ISO: " + (exif.exif$iso ? exif.exif$iso.$t : "?") + "<br>" +
+                  "Flash: " + (exif.exif$flash ? ((exif.exif$flash.$t == "true") ? "on" : "off") : "?") + "<br>" +
+                  "Camera make: " + (exif.exif$make ? exif.exif$make.$t : "?") + "<br>" +
+                  "Camera model: " + (exif.exif$model ? exif.exif$model.$t : "?") + "<br>" +
+                  "Time: " + sTime; + "</div>"
+        
+        // populate the data
+        picData[i++]= {thumb: img[0].url, 
+                       image: img[1].url, 
+                       big: img[2].url, 
+                       title: this.media$group.media$title.$t, 
+                       description: desc,
+                       albumid: this.gphoto$albumid.$t,
+                       photoid: this.gphoto$id.$t};
         });
+         
+      Galleria.configure({lightbox: true});
+      Galleria.run('#galleria', {dataSource: picData});
+    });
+    Galleria.ready(function() {
+      $('.galleria-info-faces').click(function() {
+        if ($(this).attr('data-active')=="true") {
+          $(this).css('background-color',"#000000");
+          $(this).attr('data-active', false);
+          $(".facebox").remove();
+        }
+        else {
+          $(this).css('background-color',"#909e00");
+          $(this).attr('data-active', true);
+          var gallery= Galleria.get(0);
+          if (gallery) {
+            var photoname= gallery.getData().title;
+            var query= $("#galleria").attr("data-name") + ":" + photoname;
+            $.getJSON("/photo/people.json", {q: query}, function(results) {
+              if (results.people.length) {
+                var i=0;
+                $.each(results.people, function () {
+                  var lt, ll, w, h, sh, sw;
+                  
+                  var gh= gallery.getActiveImage().height;
+                  var gw= gallery.getActiveImage().width;
+                  var gx= gallery.getActiveImage().x;
+                  var gy= gallery.getActiveImage().y;
+                  
+                  if (results.orientation <= 1 || results.orientation == 3) {
+                    sw= gw/results.width;
+                    sh= gh/results.height;
+                    fw= results.faces[i].width * sw;
+                    fh= results.faces[i].height * sh;
+                    if (results.orientation <= 1) {
+                      // rotated 0 degrees
+                      lt= parseInt(gy + (results.faces[i].yloc * sw));
+                      ll= parseInt(gx + (results.faces[i].xloc * sh));
+                    }
+                    else {
+                      // rotated 180 degrees
+                      lt= ParseInt(gy + (gh - (fh + (results.faces[i].yloc * sh))));
+                      ll= ParseInt(gx + (gw - (fw + (results.faces[i].xloc * sw))));
+                    }
+                  }
+                  else if (results.orientation == 2 || results.orientation == 4) {
+                    sw= gw/results.height;
+                    sh= gh/results.width;
+                    fw= results.faces[i].height * sw;
+                    fh= results.faces[i].width * sh;
+                    if (results.orientation == 2) {
+                      // rotated 90 degrees (counter clockwise) or 270 degrees (clockwise)
+                      lt= parseInt(gy + (results.faces[i].xloc * sh));
+                      ll= parseInt(gx + (gw - (fw + (results.faces[i].yloc * sw))));
+                    }
+                    else {
+                      // rotated 270 degrees (counter clockwise) or 90 degrees (clockwise)
+                      lt= parseInt(gy + (gh - (fh + (results.faces[i].xloc * sh))));
+                      ll= parseInt(gx + (results.faces[i].yloc * sw));
+                    }
+                  }
+                  var nameLink= "<a href=\"/people/" + this.id + "\">" + this.name + "</a>";
+                  var newDiv= "<div class=\"facebox\" style= \"width: " + fw + "px; height: " + fh + "px;" +
+                              "top: " + lt + "px;" +
+                              "left: " + ll + "px;\"" +
+                              "><span class= \"label\" style=\"position: relative; top:-20px\">" + nameLink + "</span></div>";
+                              
+                  $(".page-container").append(newDiv);
+                  i++;
+                });
+              }
+            });            
+          }
+        }
+      });
+    });
+  }
 });
-  //Galleria.run('#galleria');
 
 /*    
   // draw box when the mouse enters a name
   $("body").on("mouseenter", ".pname", function() {
 
-    // figure out the current scaling factors
-    var scale_width= Galleria.get(0).getActiveImage().width/Galleria.get(0).getActiveImage().naturalWidth;
-    var scale_height= Galleria.get(0).getActiveImage().height/Galleria.get(0).getActiveImage().naturalHeight;
-    
-    // get the face information, scaling as required & convert to string
-    var xloc= parseInt(Galleria.get(0).getActiveImage().x + ($(this).attr("data-xloc") * scale_width)) + "px";
-    var yloc= parseInt(Galleria.get(0).getActiveImage().y + ($(this).attr("data-yloc") * scale_height)) + "px";
-    var width= parseInt($(this).attr("data-width") * scale_width) + "px";
-    var height= parseInt($(this).attr("data-height") * scale_height) + "px";
-    
-    // move the facebox
-      $("#facebox").css({"width":width, "height":height, "top":yloc, "left":xloc, "display":"block"});
   });
   
   // hide when it leaves

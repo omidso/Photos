@@ -48,10 +48,13 @@ ActiveRecord::Schema.define(:version => 20130630191821) do
 
   create_table "albums", :force => true do |t|
     t.string   "name"
+    t.string   "description"
+    t.string   "onlinename"
     t.string   "authkey"
     t.string   "foldername"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "albumdate"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "facelocations", :force => true do |t|
@@ -77,10 +80,13 @@ ActiveRecord::Schema.define(:version => 20130630191821) do
   end
 
   create_table "photos", :force => true do |t|
-    t.string   "name",       :null => false
+    t.string   "name",        :null => false
+    t.integer  "width"
+    t.integer  "height"
+    t.integer  "orientation"
     t.integer  "album_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "tags", :force => true do |t|

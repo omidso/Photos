@@ -103,4 +103,15 @@ class PhotosController < ApplicationController
       format.json { render json: @photo }
     end
   end
+  
+  # GET /photo/people.json
+  def photo_people
+    p= params[:q].split(":")
+    album= Album.where(onlinename: p[0]).first
+    photo= album.photos.where(name: p[1]).first
+    
+    respond_to do |format|
+      format.json {render :json => {:width => photo.width, :height => photo.height, :orientation => photo.orientation, :people => photo.people, :faces => photo.facelocations}}
+    end
+  end
 end

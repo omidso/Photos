@@ -101,7 +101,16 @@ class PeopleController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @person }
+      format.json { render json: @person.photos }
+    end
+  end
+  
+  def person_photos
+    name= params[:q];
+    person= Person.where("name => ?", name);
+    
+    respond_to do |format|
+      format.json {render :json => person.photos }
     end
   end
 end

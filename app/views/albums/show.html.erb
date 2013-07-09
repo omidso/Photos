@@ -1,15 +1,15 @@
-<p id="notice"><%= notice %></p>
+<% content_for :head do %>
+<%= stylesheet_link_tag    "albums", media:"all" %>
+<%= javascript_include_tag "albums"%>
+<% end %>
 
-<p>
-  <b>Name:</b>
-  <%= @album.name %>
-</p>
+<div id="galleria" data-name=<%= @album.onlinename %> data-authkey=<%= @album.authkey %> >
+</div>
 
-<p>
-  <b>Authkey:</b>
-  <%= @album.authkey %>
-</p>
+<div class="galleria-footer">
+  <strong><%= @album.name %></strong><br>
+  <%= @album.description %><br>
+  <%= @album.albumdate.strftime("%B %-d, %Y") %>
+</div>
 
 
-<%= link_to 'Edit', edit_album_path(@album) %> |
-<%= link_to 'Back', albums_path %>

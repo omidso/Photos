@@ -26,6 +26,8 @@
 // = require bootstrap/bootstrap-collapse
 // = require bootstrap/bootstrap-carousel
 // = require bootstrap/bootstrap-typeahead
+// = require tokeninput/jquery.tokeninput
 // = require galleria/galleria-1.2.9
-// = require galleria/themes/classic/galleria.classic
+// = require galleria/themes/local/galleria.local
+// = require fraction
 

@@ -34,8 +34,8 @@ var PATH = Galleria.utils.getScriptPath();
 Galleria.Picasa = function() {
 
     this.options = {
-        max: 200,                      // photos to return
-        imageSize: 'medium',           // photo size ( thumb,small,medium,big,original ) or a number
+        max: 500,                      // photos to return
+        imageSize: 'big',              // photo size ( thumb,small,medium,big,original ) or a number
         thumbSize: 'thumb',            // thumbnail size ( thumb,small,medium,big,original ) or a number
         complete: function(){},        // callback to be called inside the Galleria.prototype.load
         visability: 'public',          // [OS] public by default

@@ -3,12 +3,31 @@
 <%= javascript_include_tag "albums"%>
 <% end %>
 
-<div id="galleria">
-  
-<% 
+<div class="this-page" data-type="all albums">
+  <div class="thumbnail-container">
+    <ul class="thumbnails">
+      <% @albums.each do |album| %>
+        <li class="span3">
+          <div class="thumbnail">
+            <%= link_to(album) do %>
+              <%= image_tag("", :class => "album-thumb", :'data-name' => album.onlinename, :'data-authkey' => album.authkey) %>
+            <% end %>
+              <div class="caption">
+                <p>
+                  <strong><%= album.name %></strong><br>
+                  <%= album.description %><br>
+                  <%= album.albumdate.strftime("%B %-d, %Y") %>
+                </p>
+              </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+      
+<%
 =begin %>
-
-  <% @albums.each do |album| %>
     <% dir= Pathname(photo.path).dirname.to_s %>
     <% largename= Pathname(photo.path).basename.to_s %>
     <% smallname= "s_" + largename %>

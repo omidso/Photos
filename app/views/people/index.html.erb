@@ -1,11 +1,14 @@
+<% content_for :head do %>
+<%= stylesheet_link_tag    "people", media:"all" %>
+<%= javascript_include_tag "people"%>
+<% end %>
+
 <h1>Listing People</h1>
 
 <%= form_tag people_path, :method => :get do %>
 	<p>
-		<!-- <%= text_field_tag :search, "data-pre" => @people.map(&:attributes).to_json %> !-->
 		<%= text_field_tag 'search', params[:search] %>
-		<%= submit_tag "Filter", :name => nil %>
-        </script>
+		<%= submit_tag 'search', :name => nil %>
 	</p>
 <% end %>
 

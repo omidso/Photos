@@ -5629,37 +5629,6 @@ Galleria.Picture.prototype = {
     // the inherited cache object
     cache: {},
     
-    // [OS] added, tries to normalize the src path so it works in rails 
-    // (got this code from github (kristianmandrup/rails-gallery)
-    normalizeSrc: function(src) {
-        Galleria.log('attempt normalize', src);
-
-        var normalizedSrc = src;
-
-        if (Galleria.configure.options.assets == true) {
-            var regAsAs = new RegExp('assets\\/assets');
-
-            if (regAsAs.test(src)) {
-                Galleria.log('Replace double assets/assets in image path');
-                normalizedSrc = src.replace("assets\/assets", "assets")
-            } else {
-                var regAs = new RegExp('assets\\/');
-                if (!regAs.test(src)) {
-                    Galleria.log('Add missing assets in image path:', src);
-                    normalizedSrc = 'assets/' + src;
-                }                
-            }
-            // ensure image path is never relative to current page!
-            if (!new RegExp('^\\/').test(normalizedSrc)) {
-                normalizedSrc = '/' + normalizedSrc;
-            }        
-        }
-        Galleria.log('normalized src to', normalizedSrc);
-
-        // var srcStamp = src + '?' + Utils.timestamp();
-        return normalizedSrc;
-    },
-
     // show the image on stage
     show: function() {
         Utils.show( this.image );
@@ -5695,10 +5664,6 @@ Galleria.Picture.prototype = {
     */
 
     preload: function( src ) {
-      // [OS] normalize the src
-      Galleria.log('preload: ', src);
-      var src= this.normalizeSrc(src);
-      Galleria.log('normalized: ', src);
       
         $( new Image() ).load((function(src, cache) {
             return function() {
@@ -5720,11 +5685,6 @@ Galleria.Picture.prototype = {
 
     load: function(src, size, callback) {
 
-      // [OS] normalize the src
-      Galleria.log('load: ', src);
-      var src= this.normalizeSrc(src);
-      Galleria.log('normalized: ', src);
-      
         if ( typeof size == 'function' ) {
             callback = size;
             size = null;
