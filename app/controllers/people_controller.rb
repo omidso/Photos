@@ -107,10 +107,12 @@ class PeopleController < ApplicationController
   
   def person_photos
     name= params[:q];
-    person= Person.where("name => ?", name);
-    
-    respond_to do |format|
-      format.json {render :json => person.photos }
+    person= Person.where("name = ?", name)
+    if person
+      respond_to do |format|
+        format.json {render :json => person.first.photos.order('time DESC') }
+      end
     end
   end
+  
 end

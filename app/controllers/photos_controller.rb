@@ -107,7 +107,7 @@ class PhotosController < ApplicationController
   # GET /photo/people.json
   def photo_people
     p= params[:q].split(":")
-    album= Album.where(onlinename: p[0]).first
+    album= Album.find(p[0])
     photo= album.photos.where(name: p[1]).first
     
     respond_to do |format|

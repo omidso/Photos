@@ -1,7 +1,13 @@
 class Photo < ActiveRecord::Base
-  attr_accessible :name, :width, :height, :orientation
+  attr_accessible :name, :width, :height, :orientation, :onlineid,
+                  :focallength, :fstop, :iso, :exposure, :flash, :make, :model,
+                  :thumburl, :url, :largeurl, :time
   
   validates :name, :presence => true
+  validates :onlineid, :presence => true
+  validates :thumburl, :presence => true
+  validates :url, :presence => true
+  validates :largeurl, :presence => true
   
   has_and_belongs_to_many :tags, :join_table => 'photo_tags'
   has_many :facelocations

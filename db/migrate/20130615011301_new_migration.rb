@@ -13,10 +13,22 @@ class NewMigration < ActiveRecord::Migration
     end
 
     create_table(:photos) do |t|
-      t.column :name, :string, :null => false
+      t.string :name, :null => false
+      t.string :onlineid, :null => false
       t.integer :width
       t.integer :height
       t.integer :orientation
+      t.string :focallength
+      t.string :fstop
+      t.string :iso
+      t.string :exposure
+      t.string :flash
+      t.string :make
+      t.string :model
+      t.string :thumburl
+      t.string :url
+      t.string :largeurl
+      t.datetime :time
       t.belongs_to :album
       
       t.timestamps

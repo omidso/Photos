@@ -21,6 +21,14 @@ class AlbumsController < ApplicationController
       format.json { render json: @album }
     end
   end
+  
+  def album_photos
+    album = Album.find(params[:id])
+    
+    respond_to do |format|
+      format.json { render json: album.photos}
+    end
+  end
 
 
 end

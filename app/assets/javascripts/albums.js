@@ -1,3 +1,5 @@
+// = require galleria.helper
+
 $(function() {
 
   // what page are we on?
@@ -22,8 +24,16 @@ $(function() {
   
   // assume we're on a particular album page
   else {
-    
-    // get all the pictures for this album
+    var id= $("#galleria").attr("data-id");
+    $.getJSON("/album/photos.json", {id: id}, function(results) {
+      if (results.length) {
+        picData= GalleriaDataFromJSON(results);
+        Galleria.configure({lightbox: true});
+        Galleria.run('#galleria', {dataSource: picData});
+      }
+    });
+
+/*    // get all the pictures for this album
     var url= "https://picasaweb.google.com/data/feed/api/user/omid.sojoodi/album/" +
            $("#galleria").attr("data-name") +
            '?&kind=photo&access=private&authkey=' +
@@ -66,6 +76,8 @@ $(function() {
       Galleria.configure({lightbox: true});
       Galleria.run('#galleria', {dataSource: picData});
     });
+    
+*/
     Galleria.ready(function() {
       $('.galleria-info-faces').click(function() {
         if ($(this).attr('data-active')=="true") {
@@ -79,7 +91,7 @@ $(function() {
           var gallery= Galleria.get(0);
           if (gallery) {
             var photoname= gallery.getData().title;
-            var query= $("#galleria").attr("data-name") + ":" + photoname;
+            var query= $("#galleria").attr("data-id") + ":" + photoname;
             $.getJSON("/photo/people.json", {q: query}, function(results) {
               if (results.people.length) {
                 var i=0;
@@ -123,7 +135,7 @@ $(function() {
                       ll= parseInt(gx + (results.faces[i].yloc * sw));
                     }
                   }
-                  var nameLink= "<a href=\"/people/" + this.id + "\">" + this.name + "</a>";
+                  var nameLink= "<a href=\"/people/" + this.id + "/photos \">" + this.name + "</a>";
                   var newDiv= "<div class=\"facebox\" style= \"width: " + fw + "px; height: " + fh + "px;" +
                               "top: " + lt + "px;" +
                               "left: " + ll + "px;\"" +

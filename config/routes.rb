@@ -26,7 +26,8 @@ Photos::Application.routes.draw do
   get "static_pages/about"
   
   match 'photo/people' => 'photos#photo_people'
-  match 'person/photos' => 'person#person_photos'
+  match 'person/photos' => 'people#person_photos'
+  match 'album/photos' => 'albums#album_photos'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
