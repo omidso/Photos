@@ -1,8 +1,6 @@
 Photos::Application.routes.draw do
   resources :albums
 
-  devise_for :admin_users, ActiveAdmin::Devise.config
-
   resources :photos do
     member do
       get 'tags'
@@ -27,7 +25,9 @@ Photos::Application.routes.draw do
   
   match 'photo/people' => 'photos#photo_people'
   match 'person/photos' => 'people#person_photos'
+  match 'people_by_photo_count' => 'people#photo_count'
   match 'album/photos' => 'albums#album_photos'
+  match 'album/thumbnails' => 'albums#album_thumbnails'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -86,6 +86,5 @@ Photos::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id))(.:format)'
   
-  ActiveAdmin.routes(self)
 
 end

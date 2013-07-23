@@ -2,40 +2,20 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-#galleria {
-  width: 900px;
-  height: 600px;
-  margin-top: 80px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px;
-  position: relative;
+// *= require tile.helper
+
+.this-page {
+  width: 100%
+}
+
+.thumbnail {
+  line-height: 16px;
+  background: #333;
+  width: 100%;
 }
 
 .thumbnail .caption {
-  color: #bbb;
+  padding: 5px 0px 0px 0px;
+  color: #bbb;  
 }
 
-.galleria-info {
-  width: 33%;
-  text-align: left;
-}
-
-.galleria-info-text {
-  background-color: #000;
-  opacity:0.7;
-  filter:alpha(opacity=70);
-}
-
-.facebox {
-  z-index: 9999;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 0px;
-  height: 0px;
-  border-style: solid; 
-  border-width: 1px;
-  border-color: #fff;
-  display: block;
-}

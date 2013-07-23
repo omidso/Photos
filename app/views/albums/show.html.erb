@@ -6,10 +6,13 @@
 <div id="galleria" data-id=<%= @album.id %> >
 </div>
 
+<a id="g_fullscreen" href="#" class="button" title="fullscreen mode on" alt="fullscreen mode on" fs></a> 
+<a id="g_fullscreen2" href="#" class="button" title="fullscreen mode off" alt="fullscreen mode off" -fs></a>
+
 <div class="galleria-footer">
   <strong><%= @album.name %></strong><br>
   <%= @album.description %><br>
-  <%= @album.albumdate.strftime("%B %-d, %Y") %>
+  <%= @album.albumdatestr %>
 </div>
 
 

@@ -31,3 +31,16 @@
 // = require galleria/themes/local/galleria.local
 // = require fraction
 
+$(document).ready(function() {
+  var rawhref = window.location.href; //raw current url 
+  var newpage = ((window.location.href.match(/([^\/]*)\/?$/)[1]).substring(1)); //take only the last part of the url, and chop off the first char (substring), since the contains method below is case-sensitive. Don't need to do this if they match exactly.
+  if (newpage == 'ndex') {  //deal with an exception literally
+    newpage = 'ome'
+    }
+  if (rawhref.indexOf('somePartofURL') != -1) { //look for a consistent part of the path in the raw url to deal with variable urls, etc.
+    newpage = "moreMatchingNavbarText"
+    }
+  $(".nav li").removeClass('active');
+  $(".nav li a:contains('" + newpage + "')").parent().addClass('active'); //add the active class. Note that the contains method requires the goofy quote syntax to insert a variable.
+
+});

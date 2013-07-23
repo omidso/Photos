@@ -1,5 +1,5 @@
 class Person < ActiveRecord::Base
-    attr_accessible :name
+    attr_accessible :name, :url, :urlheight, :urlwidth
     
     validates :name, :presence => true
    

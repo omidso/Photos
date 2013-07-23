@@ -11,10 +11,8 @@ class PeopleController < ApplicationController
     
     if (params[:q])
       @people= Person.search(params[:q])
-    elsif (params[:search])
-      @people= Person.where("id = ?", params[:search])
     else
-      @people= Person.all
+      @people= Person.order("name ASC")
     end
         
     respond_to do |format|
@@ -112,6 +110,22 @@ class PeopleController < ApplicationController
       respond_to do |format|
         format.json {render :json => person.first.photos.order('time DESC') }
       end
+    end
+  end
+
+  def photo_count
+    people= Person.all
+    
+    a= Array.new(people.count, Hash.new)
+    i= 0;
+    people.each do |person|
+      a[i]= {:count => person.photos.count, :person => person}
+      i+= 1
+    end
+    a.sort_by!{ |h| h[:count]}.reverse!
+    
+    respond_to do |format|
+      format.json {render json: a}
     end
   end
   

@@ -7,6 +7,10 @@ class NewMigration < ActiveRecord::Migration
       t.string :onlinename
       t.string :authkey
       t.string :foldername
+      t.integer :urlwidth
+      t.integer :urlheight
+      t.string :url      
+      t.string :albumdatestr
       t.datetime :albumdate
 
       t.timestamps
@@ -40,6 +44,9 @@ class NewMigration < ActiveRecord::Migration
     
     create_table(:people) do |t|
       t.column :name, :string, :null => false
+      t.string :url
+      t.integer :urlheight
+      t.integer :urlwidth
     end
 
     create_table(:photo_tags) do |t|

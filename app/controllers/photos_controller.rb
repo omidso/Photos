@@ -108,7 +108,7 @@ class PhotosController < ApplicationController
   def photo_people
     p= params[:q].split(":")
     album= Album.find(p[0])
-    photo= album.photos.where(name: p[1]).first
+    photo= album.photos.find(p[1])
     
     respond_to do |format|
       format.json {render :json => {:width => photo.width, :height => photo.height, :orientation => photo.orientation, :people => photo.people, :faces => photo.facelocations}}

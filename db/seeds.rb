@@ -17,10 +17,11 @@ require 'xmlsimple'
 require 'JSON'
 
 # globals
+gHeadshotAlbumName = 'Headshots'
+gHeadshotAuthKey = 'Gv1sRgCM2sh8fw47KmnwE'
 gInstructionsFile = 'z:/data/pictures/instructions.csv'
 gPictureLocation = 'z:/data/pictures'
-gOnlineDataFile = 'picasa.online.csv'
-gAlbumDataFile = 'z:/data/pictures/picasa.online.albums.csv'
+gAlbumDataFile = 'z:/data/pictures/picasa.online.txt'
 gFacesFile = 'z:/data/pictures/faces.csv'
 gCSVAlbumName = 'album name'
 gCSVAlbumDate = 'album date'
@@ -28,7 +29,6 @@ gCSVAlbumDesc = 'album description'
 gCSVOnlineAlbumName = 'online album name'
 gCSVAuthKey = 'auth key'
 gCSVFolderName = 'folder name'
-gCSVPictureFile = 'picture file'
 gCSVOriginalPhotoPath = 'original image path'
 gCSVPerson = 'person'
 gCSVFaceX = 'face x'
@@ -38,6 +38,7 @@ gCSVFaceHeight = 'face height'
 gUpdateAlbums = false
 gUpdateFaces = false
 gUserId = "omid.sojoodi"
+gNoHeadshot = "nopic"
 
 
 # what do we need to regenerate?
@@ -58,78 +59,84 @@ if (gUpdateAlbums)
   Tag.delete_all
   Album.delete_all
 
-  # start iterating looking for directories only
-  Dir.foreach(gPictureLocation) do |dirName|
+  # open the album file
+  CSV.foreach(gAlbumDataFile, :headers => true, :col_sep => "\t") do |row|
     
-    # skip "." & ".."
-    if (dirName == "." || dirName == "..")
-      next
-    end
+    # get the info for the album
+    onlineAlbumName= row[gCSVOnlineAlbumName]
+    localFolder= row[gCSVFolderName].downcase
+    authKey= row[gCSVAuthKey]
+    albumName= row[gCSVAlbumName]
+    albumDate= row[gCSVAlbumDate]
+    albumDesc= row[gCSVAlbumDesc]
     
-    # build the fullpath and if it's not a directory, skip it
-    pFullPath= Pathname.new(gPictureLocation) + dirName
-    if (!pFullPath.directory?)
-      next
-    end
-          
-    # step into the directory
-    Dir.chdir(pFullPath.to_s)
-    
-    # look for our special data file, this is contain extra info for the online folder
-    # if it's not there, we haven't synced to skip it
-    pDataFilePath= pFullPath + gOnlineDataFile
-    if (!pDataFilePath.exist?)
-      next
-    end
-    
-    # read it
-    albumName= ""
-    albumDesc= ""
-    authKey= ""
-    onlineAlbumName= ""
-    albumDate= ""
-    CSV.foreach(pDataFilePath.to_s, :headers => true, :col_sep => ",") do |row|
-      
-      # get the info for the album
-      onlineAlbumName= row[gCSVOnlineAlbumName]
-      authKey= row[gCSVAuthKey]
-      albumName= row[gCSVAlbumName]
-      albumDate= row[gCSVAlbumDate]
-      albumDesc= row[gCSVAlbumDesc]
-      
-      # break, we only care about the first line and ignore others
-      break
-    end
-      
-    # find or create the album
-    album= Album.where(:foldername => pFullPath.basename.to_s).first_or_create(:onlinename => onlineAlbumName,
-                                                                               :authkey => authKey,
-                                                                               :name => albumName,
-                                                                               :albumdate => albumDate,
-                                                                               :description => albumDesc)
-    # start a query get all the files in the 
-    mainURL = "https://picasaweb.google.com/data/feed/api/user/#{gUserId}/album/#{onlineAlbumName}?&kind=photo&access=private&authkey=#{authKey}&max-results=500&thumbsize=104u,1200u,1600u&alt=json"
+    # query it online
+    mainURL = "https://picasaweb.google.com/data/feed/api/user/#{gUserId}/album/#{onlineAlbumName}?&kind=photo&access=private&authkey=#{authKey}&max-results=500&thumbsize=104u,400u,1200u,1600u&alt=json"
     url= URI.parse(URI.encode(mainURL))
-    response= Net::HTTP.start(url.host, use_ssl: true, verify_mode: 
-    OpenSSL::SSL::VERIFY_NONE) do |http|
+    response= Net::HTTP.start(url.host, use_ssl: true, verify_mode:OpenSSL::SSL::VERIFY_NONE) do |http|
       http.get url.request_uri
     end
-
+    
+    # make sure it worked
     case response
       when Net::HTTPRedirection
-      when Net::HTTPSuccess then 
-        outputData = JSON.parse response.body
+      when Net::HTTPSuccess then
+        outputData= JSON.parse response.body
       else
-      # response code isn't a 200; raise an exception
-        puts "error"
-        exit
-      end
+        break
+    end
+      
+    # get the date in a format we'll print
+    parts= albumDate.split('-')
+    t= Time.new(parts[2], parts[0], parts[1])
+    datestr= t.strftime("%B %-d, %Y")
+    
+    #puts 'Read: "' +
+    #  localFolder + '" ' + 
+    #  onlineAlbumName + " " +
+    #  authKey + " " +
+    #  albumName + " " +
+    #  albumDate + " " +
+    #  datestr + " " + 
+    #  albumDesc + " " +
+    #  outputData['feed']['entry'][0]['media$group']['media$thumbnail'][1]['url'] + " " +
+    #  outputData['feed']['entry'][0]['media$group']['media$thumbnail'][1]['width'].to_s + " " +
+    #  outputData['feed']['entry'][0]['media$group']['media$thumbnail'][1]['height'].to_s
+    
+    # find or create the album
+    album= Album.where(:foldername => localFolder).first_or_create(:onlinename => onlineAlbumName,
+                                                                   :foldername => localFolder,
+                                                                   :authkey => authKey,
+                                                                   :name => albumName,
+                                                                   :albumdate => t,
+                                                                   :albumdatestr => datestr,
+                                                                   :description => albumDesc,
+                                                                   :url => outputData['feed']['entry'][0]['media$group']['media$thumbnail'][1]['url'],
+                                                                   :urlwidth => outputData['feed']['entry'][0]['media$group']['media$thumbnail'][1]['width'],
+                                                                   :urlheight => outputData['feed']['entry'][0]['media$group']['media$thumbnail'][1]['height'])
+    if (album.id == nil)
+      puts "ERROR!"
+      break;
+    end
+                                                                               
+    # build path to the folder & go there
+    pFullPath= Pathname.new(gPictureLocation) + localFolder;
+    if (!pFullPath.exist?)
+      puts "ERROR: Can't find local album: " + localFolder + " " + onlineAlbumName
+    end
+    Dir.chdir(pFullPath.to_s)
 
     # start going through the .jpg files in this directory
-    #Dir.glob("*.jpg") do |fName|
     outputData['feed']['entry'].each do |entry|
       pName= entry['title']['$t']
       pId= entry['gphoto$id']['$t']
+      
+      # file exists locally?
+      pPath= Pathname.new(pName)
+      if (!pPath.exist?)
+        puts "DELETE: " + pFullPath.to_s + "/" + pName
+        next
+      end
       
       # find file locally
       orientation= 0;
@@ -146,8 +153,8 @@ if (gUpdateAlbums)
         # create the photo & associate with the album
         photo= Photo.create(name: pName, onlineid: pId, width: pf.width, height: pf.height, orientation: orientation,
           thumburl: entry['media$group']['media$thumbnail'][0]['url'], 
-          url: entry['media$group']['media$thumbnail'][1]['url'],
-          largeurl: entry['media$group']['media$thumbnail'][2]['url'], 
+          url: entry['media$group']['media$thumbnail'][2]['url'],
+          largeurl: entry['media$group']['media$thumbnail'][3]['url'], 
           focallength: (entry['exif$tags']['exif$focallength'] ? entry['exif$tags']['exif$focallength']['$t'] : "?"), 
           fstop: (entry['exif$tags']['exif$fstop'] ? entry['exif$tags']['exif$fstop']['$t'] : "?"),
           exposure: (entry['exif$tags']['exif$exposure'] ? entry['exif$tags']['exif$exposure']['$t'] : "?"), 
@@ -159,7 +166,7 @@ if (gUpdateAlbums)
         album.photos << photo
       end
     end
-    puts Photo.count
+    puts localFolder + " Total: " + Photo.count.to_s
   end
 end
 
@@ -167,12 +174,51 @@ if (gUpdateAlbums || gUpdateFaces)
   
   Person.delete_all
   Facelocation.delete_all
+  
+  # query the headshots folder
+  mainURL = "https://picasaweb.google.com/data/feed/api/user/#{gUserId}/album/#{gHeadshotAlbumName}?&kind=photo&access=private&authkey=#{gHeadshotAuthKey}&max-results=500&thumbsize=288u&alt=json"
+  url= URI.parse(URI.encode(mainURL))
+  response= Net::HTTP.start(url.host, use_ssl: true, verify_mode:OpenSSL::SSL::VERIFY_NONE) do |http|
+    http.get url.request_uri
+  end
+    
+  # make sure it worked
+  case response
+    when Net::HTTPRedirection
+    when Net::HTTPSuccess then
+      outputData= JSON.parse response.body
+    else
+      puts "ERROR getting headshots!"
+      exit
+  end
+  
+  # store in a hash so we can get them easily
+  urlList= Hash.new
+  outputData['feed']['entry'].each do |entry|
+    
+    # photo name is the person's name
+    pName= entry['title']['$t']
+    
+    # strip off extension & downcase
+    pName= pName.split('.')[0].downcase
+    
+    puts "Found headshot: " + pName
+    
+    # store url
+    urlList[pName] = {url: entry['media$group']['media$thumbnail'][0]['url'],
+                      width: entry['media$group']['media$thumbnail'][0]['width'],
+                      height: entry['media$group']['media$thumbnail'][0]['height']};
+  end
 
   # Now read the faces file and create associations
   CSV.foreach(gFacesFile, :headers => true, :col_sep => ";") do |row|
     
-    # find or create the person
-    person= Person.where(:name => row[gCSVPerson]).first_or_create()
+    # see if we have a url
+    pUrl= urlList[row[gCSVPerson].downcase]
+    if (!pUrl) 
+      pUrl= urlList[gNoHeadshot];
+    end
+    person= Person.where(:name => row[gCSVPerson]).first_or_create(:url => pUrl[:url], :urlwidth => pUrl[:width], :urlheight => pUrl[:height])
     
     # get the full path as a path after converting slashes
     fullPicturePath= Pathname(row[gCSVOriginalPhotoPath].gsub('\\', '/'))
@@ -181,7 +227,7 @@ if (gUpdateAlbums || gUpdateFaces)
     pictureName= fullPicturePath.basename.to_s; 
     
     # get the folder name
-    folderName= fullPicturePath.dirname.basename.to_s;
+    folderName= fullPicturePath.dirname.basename.to_s.downcase;
     
     # find the album
     album= Album.where(:foldername => folderName).first
@@ -201,8 +247,13 @@ if (gUpdateAlbums || gUpdateFaces)
                                        :width => row[gCSVFaceWidth],
                                        :height => row[gCSVFaceHeight])
         person.facelocations << fl
-        
-      end # if (photo)
-    end # if (album)
-  end # CSV.foreach(gFacesFile, :headers => true, :col_sep => ";") do |row|
+      else
+        puts "Found album but no photo: " + pictureName + " " + folderName
+      end
+    else
+      if (folderName == "2012-10-20 Caroline And Doug's Wedding")
+        puts "Can't find the album"
+      end
+    end
+  end
 end

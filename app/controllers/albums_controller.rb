@@ -29,6 +29,5 @@ class AlbumsController < ApplicationController
       format.json { render json: album.photos}
     end
   end
-
-
+  
 end

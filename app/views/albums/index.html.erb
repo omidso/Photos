@@ -4,10 +4,19 @@
 <% end %>
 
 <div class="this-page" data-type="all albums">
+  <div id="rowholder">
+    <div class="picrow"></div>
+  </div>
+</div>
+
+<%
+=begin %>
+
+<div class="this-page" data-type="all albums">
   <div class="thumbnail-container">
     <ul class="thumbnails">
       <% @albums.each do |album| %>
-        <li class="span3">
+        <li class="span2">
           <div class="thumbnail">
             <%= link_to(album) do %>
               <%= image_tag("", :class => "album-thumb", :'data-name' => album.onlinename, :'data-authkey' => album.authkey) %>
@@ -15,7 +24,7 @@
               <div class="caption">
                 <p>
                   <strong><%= album.name %></strong><br>
-                  <%= album.description %><br>
+                  <!-- <%= album.description %><br> --> 
                   <%= album.albumdate.strftime("%B %-d, %Y") %>
                 </p>
               </div>
@@ -25,6 +34,9 @@
     </ul>
   </div>
 </div>
+
+<% 
+=end %>
       
 <%
 =begin %>
