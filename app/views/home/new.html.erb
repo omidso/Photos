@@ -1,0 +1,27 @@
+<% content_for :head do %>
+<%= stylesheet_link_tag    "new", media:"all" %>
+<%= javascript_include_tag "new" %>
+<% end %>
+
+<%= render "layouts/header" %>
+<div class= "row">
+  <div class= "span3 offset1">
+    <p class= "body">
+      It's taken me a while to get the web site up and running and it's going to take me even longer to update all the albums. 
+      I've got a few up for now and you can see the basic layout of the site. I'm likely going to go through and cull some 
+      of the crappier pictures out of the albums so don't be surprised if you see a picture disappear.
+      </br>
+      Oh, I'm also tweaking the look so that might change too.
+    </p>
+    <p class= "sig">Omid, 7/28/13</p>
+  </div>
+  <div class= "span8 offset2">
+    <div id="rowholder">
+      <div class="picrow"></div>
+    </div>
+  </div>
+</div>
+
+<%= render "layouts/footer" %>
+
+

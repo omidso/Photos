@@ -31,7 +31,7 @@ function GalleriaManageFaces()
       $(".facebox").remove();
     }
     else {
-      $(this).css('background-color',"#909e00");
+      $(this).css('background-color',"#4b698c");
       $(this).attr('data-active', true);
       var gallery= Galleria.get(0); 
       var query= gallery.getData().albumid + ":" + gallery.getData().photoid;

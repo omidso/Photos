@@ -1,44 +1,20 @@
 <% content_for :head do %>
 <%= stylesheet_link_tag    "people", media:"all" %>
-<%= stylesheet_link_tag    "tablesorter/style", media:"all" %>
 <%= javascript_include_tag "people" %>
-<%= javascript_include_tag "tablesorter/jquery.tablesorter" %>
 <% end %>
 
+<%= render "layouts/header" %>
 <div class="this-page" data-type="all people">
+  <div class= "sort-btn-group-wrap">
+    <div class="sort-btn-group">
+      <a class="btn" id="alpha"><i class="icon-arrow-down"></i> A..Z</a>
+      <a class="btn" id="count"><i class="icon-arrow-down"></i> 1..9</a>
+    </div>
+  </div>
   <div id="rowholder">
     <div class="picrow"></div>
   </div>
 </div>
 
-<%
-=begin %>
+<%= render "layouts/footer-large" %>
 
-<div class="this-page" data-type="all people">
-  <table id="peopletable" class="tablesorter" border="0" cellpadding="0" cellspacing="1">
-    <col width= "20">
-    <col width= "10">
-    <col width= "10">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Name</th>
-        <th>Photo Count</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @people.each do |person| %>
-        <% if (person.photos.count > 0) %>
-          <tr>
-            <td><%= image_tag(person.url) %></td>
-            <td><%= link_to person.name, '/people/' + person.id.to_s + '/photos' %></td>          
-      	    <td><%= person.photos.count %></td>
-          </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-
-<% 
-=end %>

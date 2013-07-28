@@ -1,0 +1,58 @@
+<div class= "header-container">
+  <div class= "pull-right">
+    <div class= "site-stats">
+      <div class= "field">
+        <div class= "data"><%= @stats['photos'].to_s %></div></br>Photos
+        </div>
+      <div class= "field">
+        <div class= "data"><%= @stats['albums'].to_s %></div></br>Albums
+      </div>
+      <div class= "field">
+        <div class= "data"><%= @stats['updated'].to_s %></div></br>Last update
+      </div>
+    </div>
+  </div>  
+  <!-- NAVBAR
+  ================================================== -->
+  <div class="navbar-wrapper">
+    <div class="navbar navbar-inverse">
+      <div class="navbar-inner">
+        <!-- Responsive Navbar Part 1: Button for triggering responsive navbar (not covered in tutorial). Include responsive CSS to utilize. -->
+        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <!-- ><a class="brand" href="#">o! Photos</a> -->
+        <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li class="active">
+              <%= link_to("Home", home_index_path) %>
+            </li>
+            <li class="divider-vertical"></li>
+            <li>
+              <%= link_to("New", home_new_path) %>
+            </li>
+            <li class="divider-vertical"></li>
+            <li>
+              <%= link_to("Albums", albums_path) %>
+            </li>
+            <li class="divider-vertical"></li>
+            <li>
+              <%= link_to("People", people_path) %>
+            </li>
+            <li class="divider-vertical"></li>
+            <li>
+              <%= link_to("About", static_pages_about_path) %>
+            </li>
+            <li class="divider-vertical"></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div><!-- /.navbar-inner -->
+    </div><!-- /.navbar -->
+  </div><!-- /.navbar-wrapper -->
+  <div class= "pull-left">
+    <%= link_to image_tag("logo-small-1.png", :class => "logo"), home_index_path, class:"brand" %>
+  </div>
+</div>

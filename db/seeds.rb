@@ -202,8 +202,6 @@ if (gUpdateAlbums || gUpdateFaces)
     # strip off extension & downcase
     pName= pName.split('.')[0].downcase
     
-    puts "Found headshot: " + pName
-    
     # store url
     urlList[pName] = {url: entry['media$group']['media$thumbnail'][0]['url'],
                       width: entry['media$group']['media$thumbnail'][0]['width'],
@@ -247,12 +245,6 @@ if (gUpdateAlbums || gUpdateFaces)
                                        :width => row[gCSVFaceWidth],
                                        :height => row[gCSVFaceHeight])
         person.facelocations << fl
-      else
-        puts "Found album but no photo: " + pictureName + " " + folderName
-      end
-    else
-      if (folderName == "2012-10-20 Caroline And Doug's Wedding")
-        puts "Can't find the album"
       end
     end
   end

@@ -1,0 +1,14 @@
+// *= require tile.helper
+
+.row {
+  padding-top: 20px;
+  color: #ddd;
+}
+
+.row .sig {
+  text-align: right;
+}
+
+.row .body {
+  text-align: left;
+}

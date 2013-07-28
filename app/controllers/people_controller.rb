@@ -113,7 +113,7 @@ class PeopleController < ApplicationController
     end
   end
 
-  def photo_count
+  def photo_by_count
     people= Person.all
     
     a= Array.new(people.count, Hash.new)
@@ -123,6 +123,21 @@ class PeopleController < ApplicationController
       i+= 1
     end
     a.sort_by!{ |h| h[:count]}.reverse!
+    
+    respond_to do |format|
+      format.json {render json: a}
+    end
+  end
+  
+  def photo_by_name
+    people= Person.order("name ASC")
+    
+    a= Array.new(people.count, Hash.new)
+    i= 0;
+    people.each do |person|
+      a[i]= {:count => person.photos.count, :person => person}
+      i+= 1
+    end
     
     respond_to do |format|
       format.json {render json: a}

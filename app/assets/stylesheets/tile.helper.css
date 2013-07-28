@@ -1,0 +1,35 @@
+#rowholder {
+  padding-top: 5px;
+  width:100%;
+}
+        
+.picrow {
+  border: 0px solid #000;
+}
+
+.picimage { 
+  background-size: cover;
+  float: left;
+  display: block;
+  cursor: pointer; 
+  position: relative;
+}
+
+.picinfo {
+  display: block;
+  -webkit-transition: opacity .40s ease-in-out;
+  height: 0;
+  opacity: 0;
+  color: #fff;
+  background-color: #000;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  overflow: none;
+}
+
+.picimage:hover .picinfo {
+  opacity:0.6;
+  filter:alpha(opacity=60);
+  height: auto;
+}

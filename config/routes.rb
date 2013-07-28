@@ -21,13 +21,16 @@ Photos::Application.routes.draw do
   end
   
   get "home/index"
+  get "home/new"
   get "static_pages/about"
   
   match 'photo/people' => 'photos#photo_people'
   match 'person/photos' => 'people#person_photos'
-  match 'people_by_photo_count' => 'people#photo_count'
+  match 'people_by_photo_count' => 'people#photo_by_count'
+  match 'people_by_name' => 'people#photo_by_name'
   match 'album/photos' => 'albums#album_photos'
   match 'album/thumbnails' => 'albums#album_thumbnails'
+  match 'album/recent' => 'albums#album_recent'
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

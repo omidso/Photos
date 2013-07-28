@@ -1,28 +1,44 @@
 // = require galleria.helper
 // = require tile.helper
 
+var gCurSort= "count";
+var people= [];
+
+function GetPeopleAndProcess(url)
+{
+  people= [];
+  $.getJSON(url, function(results) {
+    $.each(results, function () {
+      var person= this.person;
+      var count= this.count;
+      
+      if (count>0 && person.url)
+        people.push({imageurl: person.url,
+                     width: person.urlwidth,
+                     height: person.urlheight,
+                     info: '<div class=\"picinfo\">' + person.name + '<br>' + count + '</div>',
+                     linkurl: "/people/" + person.id + "/photos",
+                     data: ""});
+    });
+    processPage(people);
+  });
+}
+
+function SortByCount() {
+  GetPeopleAndProcess("/people_by_photo_count.json");
+} 
+
+function SortByName() {
+  GetPeopleAndProcess("/people_by_name.json");  
+}
+
 $(function() {
   
   page= $(".this-page").attr("data-type"); 
   if (page == "all people") {
-    var people= [];
     
-    // get all the album thumbnails
-    $.getJSON("/people_by_photo_count.json", function(results) {
-      $.each(results, function () {
-        var person= this.person;
-        var count= this.count;
-        
-        if (count>0 && person.url)
-          people.push({imageurl: person.url,
-                       width: person.urlwidth,
-                       height: person.urlheight,
-                       info: '<div class=\"picinfo\">' + person.name + '<br>' + count + '</div>',
-                       linkurl: "/people/" + person.id + "/photos",
-                       data: ""});
-      });
-      processPage(people);
-    });
+    gCurSort= "count";
+    SortByCount();
     
     $(window).resize(function() { 
       var nowWidth= $("#rowholder").innerWidth();
@@ -31,6 +47,21 @@ $(function() {
       if ((nowWidth < lastWidth) || (nowWidth > lastWidth))
         processPage(people);
     });
+    
+    // attach the sort buttons
+    $("#alpha").click(function() {
+      if (gCurSort != "alpha") {
+        gCurSort= "alpha"
+        SortByName();
+      }
+    });
+    $("#count").click(function() {
+      if (gCurSort != "count") {
+        gCurSort= "count"
+        SortByCount();
+      }
+    });
+    
     
     /*$("#peopletable").tablesorter({headers: {0: {sorter:false}},
                                    widgets: ['zebra'],

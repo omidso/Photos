@@ -4,6 +4,7 @@
   <%= javascript_include_tag "people"%>
 <% end %>
 
+<%= render "layouts/header" %>
 <div id="galleria" data-name="<%= @person.name %>" >
 </div>
 
@@ -11,5 +12,5 @@
   <strong><%= @person.name %></strong><br>
 </div>
 
-
+<%= render "layouts/footer" %>
 

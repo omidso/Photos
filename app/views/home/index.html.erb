@@ -3,6 +3,60 @@
 <%= javascript_include_tag "home"%>
 <% end %>
 
+<div class="front-page-background">
+  <div class= "pull-right">
+    <%= link_to image_tag("logo-small-1.png", :class => "logo"), home_index_path, class:"brand" %>
+  </div>
+    <ul class="thumbnails">
+      <li>
+        <div class="thumbnail">
+          <%= link_to image_tag("new.png"), home_new_path %>
+          <div class="thumbinfo">New</div>
+        </div>
+      </li>
+      <li>
+        <div class="thumbnail">
+          <%= link_to image_tag("albums.png"), albums_path %>
+          <div class="thumbinfo">Albums</div>
+        </div>
+      </li>
+      <li>
+        <div class="thumbnail">
+          <%= link_to image_tag("people.png"), people_path %>
+          <div class="thumbinfo">People</div>
+        </div>
+      </li>
+    </ul>
+</div>
+    
+
+<%
+=begin %>
+
+<div class="front-page-background">
+  <div class= "latest">
+    <div class="row-fluid">
+      <ul class="thumbnails">
+        <% albums= Album.order("created_at DESC").limit(4) %>
+        <% albums.each do |album| %>
+          <li class="span3">
+            <div class="thumbnail">
+              <%= link_to(album) do %>
+                <%= image_tag(album.url, :class => "album-thumb", :'data-name' => album.onlinename, :'data-authkey' => album.authkey) %>
+              <% end %>
+              <div class= "caption">
+                <%= album.name %></br>
+                <%= album.description %></br>
+                <%= album.albumdate.strftime("%B %d, %Y") %></br>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <div id="myCarousel" class="carousel slide" data-interval="false">
   <div class="carousel-inner">
     <% first= true %>
@@ -26,8 +80,13 @@
   <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
   <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
 </div><!-- /.carousel -->
+<% 
+=end %>
 
 <%= render "layouts/footer" %>
+
+<%
+=begin %>
 
 <script>
   ! function($) {
@@ -36,4 +95,5 @@
     })
   }(window.jQuery)
 </script>
-
+<% 
+=end %>
