@@ -47,10 +47,8 @@ ActiveRecord::Schema.define(:version => 20130615011301) do
   end
 
   create_table "photo_tags", :force => true do |t|
-    t.integer  "photo_id"
-    t.integer  "tag_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer "photo_id"
+    t.integer "tag_id"
   end
 
   create_table "photos", :force => true do |t|

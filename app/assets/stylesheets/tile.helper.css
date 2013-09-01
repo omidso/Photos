@@ -13,6 +13,12 @@
   display: block;
   cursor: pointer; 
   position: relative;
+  
+  filter: saturate(125%);
+  -webkit-filter: saturate(125%);
+  -moz-filter: saturate(125%);
+  -o-filter: saturate(125%);
+  -ms-filter: saturate(125%);
 }
 
 .picinfo {

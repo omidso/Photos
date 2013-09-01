@@ -52,8 +52,6 @@ class NewMigration < ActiveRecord::Migration
     create_table(:photo_tags) do |t|
       t.integer :photo_id
       t.integer :tag_id
-      
-      t.timestamps
     end
     
     create_table(:facelocations) do |t|

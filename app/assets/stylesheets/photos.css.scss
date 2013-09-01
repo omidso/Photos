@@ -1,3 +1,11 @@
 // Place all the styles related to the Photos controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.galleria-image img {
+  filter: saturate(120%);
+  -webkit-filter: saturate(120%);
+  -moz-filter: saturate(120%);
+  -o-filter: saturate(120%);
+  -ms-filter: saturate(120%);
+}

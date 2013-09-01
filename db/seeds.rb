@@ -37,6 +37,7 @@ gCSVFaceWidth = 'face width'
 gCSVFaceHeight = 'face height'
 gUpdateAlbums = false
 gUpdateFaces = false
+gPartialUpdate = false
 gUserId = "omid.sojoodi"
 gNoHeadshot = "nopic"
 
@@ -47,6 +48,10 @@ CSV.foreach(gInstructionsFile, :headers => true, :col_sep => ",") do |row|
     gUpdateAlbums= true
   end
   
+  if (row['Partial Update'].downcase == "yes")
+    gPartialUpdate= true
+  end
+  
   if (row['Update Faces'].downcase == "yes")
     gUpdateFaces= true
   end
@@ -54,21 +59,47 @@ end
 
 if (gUpdateAlbums)
   
+  puts "Updating albums..."
+  
   # First delete all data
-  Photo.delete_all
-  Tag.delete_all
-  Album.delete_all
+  if (!gPartialUpdate)
+    puts "Full update..."
+    Photo.delete_all
+    Tag.delete_all
+    Album.delete_all
+  else
+    puts "Partial update..."
+  end
+  
+  print "Starting"
 
   # open the album file
   CSV.foreach(gAlbumDataFile, :headers => true, :col_sep => "\t") do |row|
     
-    # get the info for the album
+    print "."
+    
+    # get onlinename
     onlineAlbumName= row[gCSVOnlineAlbumName]
+    
+    # ignore anything starting with '#'
+    if (onlineAlbumName[0] == '#')
+      puts "Ignoring " + onlineAlbumName
+      next
+    end    
+
+    # get the info for the album    
     localFolder= row[gCSVFolderName].downcase
     authKey= row[gCSVAuthKey]
     albumName= row[gCSVAlbumName]
     albumDate= row[gCSVAlbumDate]
     albumDesc= row[gCSVAlbumDesc]
+    
+    if (gPartialUpdate)
+      album= Album.where(:foldername => localFolder).first
+      if (album != nil)
+        next
+      end
+    end
     
     # query it online
     mainURL = "https://picasaweb.google.com/data/feed/api/user/#{gUserId}/album/#{onlineAlbumName}?&kind=photo&access=private&authkey=#{authKey}&max-results=500&thumbsize=104u,400u,1200u,1600u&alt=json"
@@ -91,18 +122,6 @@ if (gUpdateAlbums)
     t= Time.new(parts[2], parts[0], parts[1])
     datestr= t.strftime("%B %-d, %Y")
     
-    #puts 'Read: "' +
-    #  localFolder + '" ' + 
-    #  onlineAlbumName + " " +
-    #  authKey + " " +
-    #  albumName + " " +
-    #  albumDate + " " +
-    #  datestr + " " + 
-    #  albumDesc + " " +
-    #  outputData['feed']['entry'][0]['media$group']['media$thumbnail'][1]['url'] + " " +
-    #  outputData['feed']['entry'][0]['media$group']['media$thumbnail'][1]['width'].to_s + " " +
-    #  outputData['feed']['entry'][0]['media$group']['media$thumbnail'][1]['height'].to_s
-    
     # find or create the album
     album= Album.where(:foldername => localFolder).first_or_create(:onlinename => onlineAlbumName,
                                                                    :foldername => localFolder,
@@ -123,10 +142,11 @@ if (gUpdateAlbums)
     pFullPath= Pathname.new(gPictureLocation) + localFolder;
     if (!pFullPath.exist?)
       puts "ERROR: Can't find local album: " + localFolder + " " + onlineAlbumName
+      album.delete
     end
     Dir.chdir(pFullPath.to_s)
 
-    # start going through the .jpg files in this directory
+    # start going through the .jpg files in the album
     outputData['feed']['entry'].each do |entry|
       pName= entry['title']['$t']
       pId= entry['gphoto$id']['$t']
@@ -164,13 +184,27 @@ if (gUpdateAlbums)
           model: (entry['exif$tags']['exif$model'] ? entry['exif$tags']['exif$model']['$t'] : "?"),
           time: pf.date_time)
         album.photos << photo
+        
+        # get tags
+        if (entry['media$group']['media$keywords']['$t'] != nil)
+          tags= entry['media$group']['media$keywords']['$t'].split(',')
+          tags.each do |tagname|
+            tag= Tag.where(:name => tagname.strip).first_or_create
+            tag.photos << photo
+          end
+        end
       end
     end
+    puts ""
     puts localFolder + " Total: " + Photo.count.to_s
   end
+  puts ""
+  puts "Finished albums"
 end
 
 if (gUpdateAlbums || gUpdateFaces)
+  
+  puts "Updating faces"
   
   Person.delete_all
   Facelocation.delete_all
@@ -211,6 +245,8 @@ if (gUpdateAlbums || gUpdateFaces)
   # Now read the faces file and create associations
   CSV.foreach(gFacesFile, :headers => true, :col_sep => ";") do |row|
     
+    print "."
+    
     # see if we have a url
     pUrl= urlList[row[gCSVPerson].downcase]
     if (!pUrl) 
@@ -248,4 +284,6 @@ if (gUpdateAlbums || gUpdateFaces)
       end
     end
   end
+  puts ""
+  puts "Finished faces"
 end

@@ -7,29 +7,33 @@
   <div class= "pull-right">
     <%= link_to image_tag("logo-small-1.png", :class => "logo"), home_index_path, class:"brand" %>
   </div>
-    <ul class="thumbnails">
-      <li>
-        <div class="thumbnail">
-          <%= link_to image_tag("new.png"), home_new_path %>
-          <div class="thumbinfo">New</div>
+  <ul class="thumbnails">
+    <li>
+      <%= link_to "new", home_new_path, class:"thumb-new" %>
+    </li>
+    <li>
+      <%= link_to "albums", albums_path, class:"thumb-albums" %>
+    </li>
+    <li>
+      <%= link_to "people", people_path, class:"thumb-people" %>
+    </li>
+  </ul>
+  
+  <div class= "pull-right">
+    <div class= "site-stats">
+      <div class= "field">
+        <div class= "data"><%= @stats['photos'].to_s %></div></br>Photos
         </div>
-      </li>
-      <li>
-        <div class="thumbnail">
-          <%= link_to image_tag("albums.png"), albums_path %>
-          <div class="thumbinfo">Albums</div>
-        </div>
-      </li>
-      <li>
-        <div class="thumbnail">
-          <%= link_to image_tag("people.png"), people_path %>
-          <div class="thumbinfo">People</div>
-        </div>
-      </li>
-    </ul>
+      <div class= "field">
+        <div class= "data"><%= @stats['albums'].to_s %></div></br>Albums
+      </div>
+      <div class= "field">
+        <div class= "data"><%= @stats['updated'].to_s %></div></br>Last update
+      </div>
+    </div>
+  </div>  
 </div>
     
-
 <%
 =begin %>
 
