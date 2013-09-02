@@ -44,7 +44,7 @@ $(function() {
       $.each(results, function () {
         var photo= this;
         
-        pics.push({imageurl: photo.url,
+        pics.push({imageurl: photo.thumburl,
                    width: photo.width,
                    height: photo.height,
                    info: '<div class=\"picinfo\">' + photo.name + '</div>',

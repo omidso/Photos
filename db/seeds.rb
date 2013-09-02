@@ -102,7 +102,7 @@ if (gUpdateAlbums)
     end
     
     # query it online
-    mainURL = "https://picasaweb.google.com/data/feed/api/user/#{gUserId}/album/#{onlineAlbumName}?&kind=photo&access=private&authkey=#{authKey}&max-results=500&thumbsize=104u,400u,1200u,1600u&alt=json"
+    mainURL = "https://picasaweb.google.com/data/feed/api/user/#{gUserId}/album/#{onlineAlbumName}?&kind=photo&access=private&authkey=#{authKey}&max-results=500&thumbsize=220u,1200u,1600u&alt=json"
     url= URI.parse(URI.encode(mainURL))
     response= Net::HTTP.start(url.host, use_ssl: true, verify_mode:OpenSSL::SSL::VERIFY_NONE) do |http|
       http.get url.request_uri
@@ -130,9 +130,9 @@ if (gUpdateAlbums)
                                                                    :albumdate => t,
                                                                    :albumdatestr => datestr,
                                                                    :description => albumDesc,
-                                                                   :url => outputData['feed']['entry'][0]['media$group']['media$thumbnail'][1]['url'],
-                                                                   :urlwidth => outputData['feed']['entry'][0]['media$group']['media$thumbnail'][1]['width'],
-                                                                   :urlheight => outputData['feed']['entry'][0]['media$group']['media$thumbnail'][1]['height'])
+                                                                   :url => outputData['feed']['entry'][0]['media$group']['media$thumbnail'][0]['url'],
+                                                                   :urlwidth => outputData['feed']['entry'][0]['media$group']['media$thumbnail'][0]['width'],
+                                                                   :urlheight => outputData['feed']['entry'][0]['media$group']['media$thumbnail'][0]['height'])
     if (album.id == nil)
       puts "ERROR!"
       break;
@@ -151,10 +151,14 @@ if (gUpdateAlbums)
       pName= entry['title']['$t']
       pId= entry['gphoto$id']['$t']
       
-      # file exists locally?
+      # jpeg & file exists locally?
       pPath= Pathname.new(pName)
+      if (pPath.extname.downcase != ".jpg")
+        puts "Not a jpeg: " + pFullPath.to_s + "/" + pName
+        next
+      end
       if (!pPath.exist?)
-        puts "DELETE: " + pFullPath.to_s + "/" + pName
+        puts "File does not exist locally: " + pFullPath.to_s + "/" + pName
         next
       end
       
@@ -173,8 +177,8 @@ if (gUpdateAlbums)
         # create the photo & associate with the album
         photo= Photo.create(name: pName, onlineid: pId, width: pf.width, height: pf.height, orientation: orientation,
           thumburl: entry['media$group']['media$thumbnail'][0]['url'], 
-          url: entry['media$group']['media$thumbnail'][2]['url'],
-          largeurl: entry['media$group']['media$thumbnail'][3]['url'], 
+          url: entry['media$group']['media$thumbnail'][1]['url'],
+          largeurl: entry['media$group']['media$thumbnail'][2]['url'], 
           focallength: (entry['exif$tags']['exif$focallength'] ? entry['exif$tags']['exif$focallength']['$t'] : "?"), 
           fstop: (entry['exif$tags']['exif$fstop'] ? entry['exif$tags']['exif$fstop']['$t'] : "?"),
           exposure: (entry['exif$tags']['exif$exposure'] ? entry['exif$tags']['exif$exposure']['$t'] : "?"), 
