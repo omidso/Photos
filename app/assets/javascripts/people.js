@@ -68,6 +68,34 @@ $(function() {
                                    sortList: [[2,1]]});*/
   }
   else {
+    
+    var id= $(".this-page").attr("data-id");
+    var pics= [];
+    
+    // get all the picture thumbnails
+    $.getJSON("/person/photos.json", {id: id}, function(results) {
+      $.each(results, function () {
+        var photo= this;
+        
+        pics.push({imageurl: photo.thumburl,
+                   width: photo.width,
+                   height: photo.height,
+                   info: '<div class=\"picinfo\">' + photo.name + '</div>',
+                   linkurl: "/photos/" + photo.id,
+                   data: ' data-name=' + photo.onlinename + ' data-authkey=' + "auth"});
+      });
+      processPage(pics);
+    });
+
+    $(window).resize(function() { 
+      var nowWidth= $("#rowholder").innerWidth();
+        
+      // test to see if the window resize is big enough to deserve a reprocess
+      if ((nowWidth < lastWidth) || (nowWidth > lastWidth))
+        processPage(pics);
+    });
+
+/*
     var person= $("#galleria").attr("data-name");
     $.getJSON("/person/photos.json", {q: person}, function(results) {
       if (results.length) {
@@ -80,5 +108,7 @@ $(function() {
     Galleria.ready(function() {
       GalleriaManageFaces();
     });
+*/
+
   }
 });

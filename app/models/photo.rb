@@ -12,7 +12,7 @@ class Photo < ActiveRecord::Base
   has_and_belongs_to_many :tags, :join_table => 'photo_tags'
   has_many :facelocations
   has_many :people, :through => :facelocations
-  belongs_to :albums
+  belongs_to :album
 
   def names_sorted_string
     names= ""

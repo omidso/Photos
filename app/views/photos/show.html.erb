@@ -1,1 +1,44 @@
-<%= image_tag @photo.path %>
+<% content_for :head do %>
+<%= stylesheet_link_tag    "photos", media:"all" %>
+<%= javascript_include_tag "photos" %>
+<% end %>
+
+<%= render "layouts/header" %>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span10">
+      <div class="pull-left">
+        <%= image_tag @photo.url, :class => "picture" %>
+      </div>
+    </div>
+    <div class="span2">
+      <div class= "picture-info">
+        <strong>Picture</strong></br>
+        <%= 'Album: ' + @photo.album.name %></br>
+        <%= 'Date: ' + (@photo.time ? @photo.time.strftime("%B %-d, %Y") : '?') %></br>        
+        <%= 'Name: ' + @photo.name %></br>
+      </div>
+      </br>
+      <div class= "picture-info">
+        <strong>People</strong></br>
+        <% people= @photo.people.order('name ASC') %>
+        <% people.each do |person| %>
+          <%= link_to person.name, photos_person_path(person) %></br>
+        <% end %>
+      </div>
+      </br>
+      <div class= "picture-info">
+        <strong>Camera</strong></br>
+        <%= 'Focal Length:' + @photo.focallength + ' mm f/' + @photo.fstop %></br>
+        <%= 'Exposure: ' + @photo.exposure + 's' %></br>
+        <%= 'ISO: ' + @photo.iso %></br>
+        <%= 'Flash: ' + @photo.flash %></br>
+        <%= 'Camera make: ' + @photo.make %></br>
+        <%= 'Camera model: ' + @photo.model %></br>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render "layouts/footer" %>

@@ -102,7 +102,7 @@ if (gUpdateAlbums)
     end
     
     # query it online
-    mainURL = "https://picasaweb.google.com/data/feed/api/user/#{gUserId}/album/#{onlineAlbumName}?&kind=photo&access=private&authkey=#{authKey}&max-results=500&thumbsize=220u,1200u,1600u&alt=json"
+    mainURL = "https://picasaweb.google.com/data/feed/api/user/#{gUserId}/album/#{onlineAlbumName}?&kind=photo&access=private&authkey=#{authKey}&max-results=500&thumbsize=640u,1200u,1600u&alt=json"
     url= URI.parse(URI.encode(mainURL))
     response= Net::HTTP.start(url.host, use_ssl: true, verify_mode:OpenSSL::SSL::VERIFY_NONE) do |http|
       http.get url.request_uri
@@ -180,13 +180,15 @@ if (gUpdateAlbums)
           url: entry['media$group']['media$thumbnail'][1]['url'],
           largeurl: entry['media$group']['media$thumbnail'][2]['url'], 
           focallength: (entry['exif$tags']['exif$focallength'] ? entry['exif$tags']['exif$focallength']['$t'] : "?"), 
-          fstop: (entry['exif$tags']['exif$fstop'] ? entry['exif$tags']['exif$fstop']['$t'] : "?"),
-          exposure: (entry['exif$tags']['exif$exposure'] ? entry['exif$tags']['exif$exposure']['$t'] : "?"), 
+          fstop: pf.f_number.to_f,
+          exposure: pf.exposure_time.to_s,
+          #fstop: (entry['exif$tags']['exif$fstop'] ? entry['exif$tags']['exif$fstop']['$t'] : "?"),          
+          #exposure: (entry['exif$tags']['exif$exposure'] ? entry['exif$tags']['exif$exposure']['$t'] : "?"), 
           iso: (entry['exif$tags']['exif$iso'] ? entry['exif$tags']['exif$iso']['$t'] : "?"),
           flash: (entry['exif$tags']['exif$flash'] ? (entry['exif$tags']['exif$flash']['$t'] == "true" ? "on" : "off") : "?"),
           make: (entry['exif$tags']['exif$make'] ? entry['exif$tags']['exif$make']['$t'] : "?"), 
           model: (entry['exif$tags']['exif$model'] ? entry['exif$tags']['exif$model']['$t'] : "?"),
-          time: pf.date_time)
+          time: pf.date_time_digitized)
         album.photos << photo
         
         # get tags

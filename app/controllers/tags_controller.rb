@@ -21,6 +21,18 @@ class TagsController < ApplicationController
     end
   end
 
+  # GET /tags/1/photos
+  # GET /tags/1.json/photos
+  def photos
+    @tag = Tag.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @tag }
+    end
+  end
+  
+=begin
   # GET /tags/new
   # GET /tags/new.json
   def new
@@ -80,15 +92,6 @@ class TagsController < ApplicationController
       format.json { head :no_content }
     end
   end
+=end
   
-  # GET /tags/1/photos
-  # GET /tags/1.json/photos
-  def photos
-    @tag = Tag.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @tag }
-    end
-  end
 end

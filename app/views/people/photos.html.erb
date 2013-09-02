@@ -5,12 +5,24 @@
 <% end %>
 
 <%= render "layouts/header" %>
+
+<div class="this-page" data-type="person" data-id=<%= @person.id %> >
+  <div id="rowholder">
+    <div class="picrow"></div>
+  </div>
+</div>
+
+<%
+=begin %>
 <div id="galleria" data-name="<%= @person.name %>" >
 </div>
 
 <div class="galleria-footer">
   <strong><%= @person.name %></strong><br>
 </div>
+
+<%
+=end %>
 
 <%= render "layouts/footer" %>
 

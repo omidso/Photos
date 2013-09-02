@@ -83,10 +83,10 @@ home.js: home-dc20f8e7b32e83ecd8d3070704a80273.js
 home/index.js: home-dc20f8e7b32e83ecd8d3070704a80273.js
 new.js: new-ce983eacebbc29f6cebfb0c8daea6e87.js
 new/index.js: new-ce983eacebbc29f6cebfb0c8daea6e87.js
-people.js: people-6831f19b3cf630110c94cc2cca8f478b.js
-people/index.js: people-6831f19b3cf630110c94cc2cca8f478b.js
-photos.js: photos-70c96721db4b786bca0f34c09666c851.js
-photos/index.js: photos-70c96721db4b786bca0f34c09666c851.js
+people.js: people-ff4bc77a355d4b7b96ef94d4d137958e.js
+people/index.js: people-ff4bc77a355d4b7b96ef94d4d137958e.js
+photos.js: photos-1b13569e9620782f423d4cd3ce931750.js
+photos/index.js: photos-1b13569e9620782f423d4cd3ce931750.js
 static_pages.js: static_pages-0f36418a56408e609fbea9892fac1a67.js
 static_pages/index.js: static_pages-0f36418a56408e609fbea9892fac1a67.js
 tags.js: tags-0f36418a56408e609fbea9892fac1a67.js
@@ -103,8 +103,8 @@ new.css: new-6334276e2929bcd8c63b547be897cbac.css
 new/index.css: new-6334276e2929bcd8c63b547be897cbac.css
 people.css: people-ef01202779e003936a3d22623e307b06.css
 people/index.css: people-ef01202779e003936a3d22623e307b06.css
-photos.css: photos-1887e6e3e05e25f017eed51718609ce4.css
-photos/index.css: photos-1887e6e3e05e25f017eed51718609ce4.css
+photos.css: photos-d120906a1c24c17e2f0e072f88ae5fd1.css
+photos/index.css: photos-d120906a1c24c17e2f0e072f88ae5fd1.css
 scaffolds.css: scaffolds-4e1c83aee4efc6dfda6f86e06a0bab7e.css
 scaffolds/index.css: scaffolds-4e1c83aee4efc6dfda6f86e06a0bab7e.css
 static_pages.css: static_pages-0e897765f8073759598dcf4fb90b430a.css

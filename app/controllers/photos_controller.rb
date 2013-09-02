@@ -22,6 +22,40 @@ class PhotosController < ApplicationController
     end
   end
 
+  # GET /photos/1/tags
+  # GET /photos/1.json/tags
+  def tags
+    @photo = Photo.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @photo }
+    end
+  end
+  
+  # GET /photos/1/people
+  # GET /photos/1.json/people
+  def people
+    @photo = Photo.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @photo }
+    end
+  end
+  
+  # GET /photo/people.json
+  def photo_people
+    p= params[:q].split(":")
+    album= Album.find(p[0])
+    photo= album.photos.find(p[1])
+    
+    respond_to do |format|
+      format.json {render :json => {:width => photo.width, :height => photo.height, :orientation => photo.orientation, :people => photo.people, :faces => photo.facelocations}}
+    end
+  end
+  
+=begin
   # GET /photos/new
   # GET /photos/new.json
   def new
@@ -81,37 +115,6 @@ class PhotosController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
-  # GET /photos/1/tags
-  # GET /photos/1.json/tags
-  def tags
-    @photo = Photo.find(params[:id])
+=end
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @photo }
-    end
-  end
-  
-  # GET /photos/1/people
-  # GET /photos/1.json/people
-  def people
-    @photo = Photo.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @photo }
-    end
-  end
-  
-  # GET /photo/people.json
-  def photo_people
-    p= params[:q].split(":")
-    album= Album.find(p[0])
-    photo= album.photos.find(p[1])
-    
-    respond_to do |format|
-      format.json {render :json => {:width => photo.width, :height => photo.height, :orientation => photo.orientation, :people => photo.people, :faces => photo.facelocations}}
-    end
-  end
 end

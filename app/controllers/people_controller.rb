@@ -32,6 +32,60 @@ class PeopleController < ApplicationController
     end
   end
 
+  # GET /people/1/photos
+  # GET /people/1.json/photos
+  def photos
+    @person = Person.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @person.photos }
+    end
+  end
+  
+  def person_photos
+    #name= params[:q];
+    #person= Person.where("name = ?", name)
+    person= Person.find(params[:id])
+    if person
+      respond_to do |format|
+        format.json {render :json => person.photos.order('time DESC') }
+      end
+    end
+  end
+
+  def photo_by_count
+    people= Person.all
+    
+    a= Array.new(people.count, Hash.new)
+    i= 0;
+    people.each do |person|
+      a[i]= {:count => person.photos.count, :person => person}
+      i+= 1
+    end
+    a.sort_by!{ |h| h[:count]}.reverse!
+    
+    respond_to do |format|
+      format.json {render json: a}
+    end
+  end
+  
+  def photo_by_name
+    people= Person.order("name ASC")
+    
+    a= Array.new(people.count, Hash.new)
+    i= 0;
+    people.each do |person|
+      a[i]= {:count => person.photos.count, :person => person}
+      i+= 1
+    end
+    
+    respond_to do |format|
+      format.json {render json: a}
+    end
+  end
+
+=begin
   # GET /people/new
   # GET /people/new.json
   def new
@@ -91,57 +145,6 @@ class PeopleController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
-  # GET /people/1/photos
-  # GET /people/1.json/photos
-  def photos
-    @person = Person.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @person.photos }
-    end
-  end
-  
-  def person_photos
-    name= params[:q];
-    person= Person.where("name = ?", name)
-    if person
-      respond_to do |format|
-        format.json {render :json => person.first.photos.order('time DESC') }
-      end
-    end
-  end
-
-  def photo_by_count
-    people= Person.all
-    
-    a= Array.new(people.count, Hash.new)
-    i= 0;
-    people.each do |person|
-      a[i]= {:count => person.photos.count, :person => person}
-      i+= 1
-    end
-    a.sort_by!{ |h| h[:count]}.reverse!
-    
-    respond_to do |format|
-      format.json {render json: a}
-    end
-  end
-  
-  def photo_by_name
-    people= Person.order("name ASC")
-    
-    a= Array.new(people.count, Hash.new)
-    i= 0;
-    people.each do |person|
-      a[i]= {:count => person.photos.count, :person => person}
-      i+= 1
-    end
-    
-    respond_to do |format|
-      format.json {render json: a}
-    end
-  end
+=end
   
 end

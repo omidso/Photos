@@ -1,4 +1,5 @@
-$(function() {
+/*
+ $(function() {
 	Galleria.configure({
 	  log: true,
 	  assets: true
@@ -28,3 +29,4 @@ $(function() {
 	});
 	
 });
+*/

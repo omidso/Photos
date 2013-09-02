@@ -1,0 +1,20 @@
+postgress access:
+postgress password = 'password', username = 'postgres'
+
+github info:
+username: omidso
+password: omid7777
+
+submit to github and heroku:
+bundle exec rake assets:precompile
+git commit -m "<msg>"
+git push
+git push heroku master
+
+get database dump and push to heroku
+pg_dump -Fc --no-acl --no-owner -h localhost -U postgres development.postgresql > mydb.dump
+heroku pgbackups:restore DATABASE '<dropbox>.dump'
+heroku restart
+
+rake assets:clean
+

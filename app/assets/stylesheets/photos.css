@@ -9,3 +9,29 @@
   -o-filter: saturate(120%);
   -ms-filter: saturate(120%);
 }
+
+.container-fluid {
+  margin-top: 30px;
+}
+
+.picture {
+  max-height: 75%;
+}
+
+.picture-info {
+  text-align: left;
+  font-size: 11px;
+  line-height: 15px;
+  color: #bbb;
+}
+
+.picture-info a:link {
+  color: #bbb;
+}
+.picture-info a:visited {
+  color: #bbb;
+}
+
+.picture-info a:hover {
+  color: #0088cc;
+}
