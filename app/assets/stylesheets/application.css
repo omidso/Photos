@@ -9,7 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require galleria/themes/local/galleria.local
+ *= require galleria/galleria.local
  *= require tokeninput/token-input
   * [OS] removing the following: = require_tree .
  */

@@ -28,7 +28,7 @@
 // = require bootstrap/bootstrap-typeahead
 // = require tokeninput/jquery.tokeninput
 // = require galleria/galleria-1.2.9
-// = require galleria/themes/local/galleria.local
+// = require galleria/galleria.local
 // = require fraction
 
 $(document).ready(function() {

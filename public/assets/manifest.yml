@@ -129,6 +129,10 @@ bootstrap/glyphicons-halflings-white.png: bootstrap/glyphicons-halflings-white-6
 bootstrap/glyphicons-halflings-white/index.png: bootstrap/glyphicons-halflings-white-6cccd17a7aed91dbc0157d343c68c0d9.png
 bootstrap/glyphicons-halflings.png: bootstrap/glyphicons-halflings-2851b489e8c39f8fad44fc10efb99c3e.png
 bootstrap/glyphicons-halflings/index.png: bootstrap/glyphicons-halflings-2851b489e8c39f8fad44fc10efb99c3e.png
+galleria/local-loader.gif: galleria/local-loader-efbcfdb0cb95a77ca8d9dc4f90f3ed2f.gif
+galleria/local-loader/index.gif: galleria/local-loader-efbcfdb0cb95a77ca8d9dc4f90f3ed2f.gif
+galleria/local-map.png: galleria/local-map-75ddeb18bbcb223988964d05e90afce2.png
+galleria/local-map/index.png: galleria/local-map-75ddeb18bbcb223988964d05e90afce2.png
 bootstrap/bootstrap-affix.js: bootstrap/bootstrap-affix-eea2dd5f5ffd576bd0d1b273e40e2232.js
 bootstrap/bootstrap-affix/index.js: bootstrap/bootstrap-affix-eea2dd5f5ffd576bd0d1b273e40e2232.js
 bootstrap/bootstrap-alert.js: bootstrap/bootstrap-alert-9f27a57cce7e0aeabd834094f4110ff3.js
@@ -166,6 +170,8 @@ galleria/galleria-1.2.9.js: galleria/galleria-1.2.9-7497a77d3fe4a65be07b3f98f655
 galleria/galleria-1/index.2.9.js: galleria/galleria-1.2.9-7497a77d3fe4a65be07b3f98f6554ec3.js
 galleria/galleria-1.2.9.min.js: galleria/galleria-1.2.9.min-7497a77d3fe4a65be07b3f98f6554ec3.js
 galleria/galleria-1/index.2.9.min.js: galleria/galleria-1.2.9.min-7497a77d3fe4a65be07b3f98f6554ec3.js
+galleria/galleria.local.js: galleria/galleria.local-e920a0a1fa7eab0accb9a825f3835963.js
+galleria/galleria/index.local.js: galleria/galleria.local-e920a0a1fa7eab0accb9a825f3835963.js
 galleria/plugins/flickr/flickr-demo.html: galleria/plugins/flickr/flickr-demo-55a4f669284a68f4412492c8873c065d.html
 galleria/plugins/flickr/flickr-demo/index.html: galleria/plugins/flickr/flickr-demo-55a4f669284a68f4412492c8873c065d.html
 galleria/plugins/flickr/flickr-loader.gif: galleria/plugins/flickr/flickr-loader-ee905b12f6a38b980f3a38a714fbf055.gif
@@ -202,16 +208,8 @@ galleria/themes/classic/galleria.classic.js: galleria/themes/classic/galleria.cl
 galleria/themes/classic/galleria/index.classic.js: galleria/themes/classic/galleria.classic-9912ca75705914dfa56af35b31c7cf38.js
 galleria/themes/classic/galleria.classic.min.js: galleria/themes/classic/galleria.classic.min-f6a04a3ff5f386c2400c3a187a10b84e.js
 galleria/themes/classic/galleria/index.classic.min.js: galleria/themes/classic/galleria.classic.min-f6a04a3ff5f386c2400c3a187a10b84e.js
-galleria/themes/local/galleria.local.css: galleria/themes/local/galleria.local-947b07e58800d0f3d42b72bcf2c6ccdd.css
-galleria/themes/local/galleria/index.local.css: galleria/themes/local/galleria.local-947b07e58800d0f3d42b72bcf2c6ccdd.css
-galleria/themes/local/galleria.local.js: galleria/themes/local/galleria.local-e920a0a1fa7eab0accb9a825f3835963.js
-galleria/themes/local/galleria/index.local.js: galleria/themes/local/galleria.local-e920a0a1fa7eab0accb9a825f3835963.js
 galleria/themes/local/local-demo.html: galleria/themes/local/local-demo-55b8a54f2ff03447422ed0c7966b43ea.html
 galleria/themes/local/local-demo/index.html: galleria/themes/local/local-demo-55b8a54f2ff03447422ed0c7966b43ea.html
-galleria/themes/local/local-loader.gif: galleria/themes/local/local-loader-efbcfdb0cb95a77ca8d9dc4f90f3ed2f.gif
-galleria/themes/local/local-loader/index.gif: galleria/themes/local/local-loader-efbcfdb0cb95a77ca8d9dc4f90f3ed2f.gif
-galleria/themes/local/local-map.png: galleria/themes/local/local-map-75ddeb18bbcb223988964d05e90afce2.png
-galleria/themes/local/local-map/index.png: galleria/themes/local/local-map-75ddeb18bbcb223988964d05e90afce2.png
 pwi/jquery.pwi-min.js: pwi/jquery.pwi-min-97dbade0f8e4a8ed2767c400874976a5.js
 pwi/jquery/index.pwi-min.js: pwi/jquery.pwi-min-97dbade0f8e4a8ed2767c400874976a5.js
 pwi/jquery.pwi.js: pwi/jquery.pwi-7fbf325b966516ad4281b0188849b27e.js
@@ -230,6 +228,8 @@ bootstrap/bootstrap.css: bootstrap/bootstrap-c602ab5ef68ea053cbc38a2431a1d7e0.cs
 bootstrap/bootstrap/index.css: bootstrap/bootstrap-c602ab5ef68ea053cbc38a2431a1d7e0.css
 bootstrap/bootstrap.min.css: bootstrap/bootstrap.min-094af85ae7fa0056c93dff6fb5167508.css
 bootstrap/bootstrap/index.min.css: bootstrap/bootstrap.min-094af85ae7fa0056c93dff6fb5167508.css
+galleria/galleria.local.css: galleria/galleria.local-947b07e58800d0f3d42b72bcf2c6ccdd.css
+galleria/galleria/index.local.css: galleria/galleria.local-947b07e58800d0f3d42b72bcf2c6ccdd.css
 tablesorter/asc.gif: tablesorter/asc-199e47caab2f90f24431a80e29cfa3d7.gif
 tablesorter/asc/index.gif: tablesorter/asc-199e47caab2f90f24431a80e29cfa3d7.gif
 tablesorter/bg.gif: tablesorter/bg-f438986e95ec266fffb9d6158fabde0c.gif
