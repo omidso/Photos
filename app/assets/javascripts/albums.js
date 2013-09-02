@@ -35,6 +35,34 @@ $(function() {
  
   // assume we're on a particular album page
   else {
+    
+    var id= $(".this-page").attr("data-id");
+    var pics= [];
+    
+    // get all the picture thumbnails
+    $.getJSON("/album/photos.json", {id: id}, function(results) {
+      $.each(results, function () {
+        var photo= this;
+        
+        pics.push({imageurl: photo.url,
+                   width: photo.width,
+                   height: photo.height,
+                   info: '<div class=\"picinfo\">' + photo.name + '</div>',
+                   linkurl: "/photos/" + photo.id,
+                   data: ' data-name=' + photo.onlinename + ' data-authkey=' + "auth"});
+      });
+      processPage(pics);
+    });
+
+    $(window).resize(function() { 
+      var nowWidth= $("#rowholder").innerWidth();
+        
+      // test to see if the window resize is big enough to deserve a reprocess
+      if ((nowWidth < lastWidth) || (nowWidth > lastWidth))
+        processPage(pics);
+    });
+    
+    /*
     var id= $("#galleria").attr("data-id");
     $.getJSON("/album/photos.json", {id: id}, function(results) {
       if (results.length) {
@@ -49,5 +77,6 @@ $(function() {
         });
       }
     });
+    */
   }
 });

@@ -4,6 +4,17 @@
 <% end %>
 
 <%= render "layouts/header" %>
+<div class="this-page" data-type="album" data-id=<%= @album.id %> >
+  <div id="rowholder">
+    <div class="picrow"></div>
+  </div>
+</div>
+<%= render "layouts/footer-large" %>
+
+<%
+=begin %>
+
+<%= render "layouts/header" %>
 <div id="galleria" data-id=<%= @album.id %> >
 </div>
 
@@ -16,4 +27,6 @@
   <%= @album.albumdatestr %>
 </div>
 
+<%
+=end %>
 

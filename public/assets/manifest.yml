@@ -73,8 +73,8 @@ sort-num-asc.png: sort-num-asc-657592640f7df25d989b97d7e450f28d.png
 sort-num-asc/index.png: sort-num-asc-657592640f7df25d989b97d7e450f28d.png
 sort-num-desc.png: sort-num-desc-2f75af7d59d271d24b7e2aa8347fab7a.png
 sort-num-desc/index.png: sort-num-desc-2f75af7d59d271d24b7e2aa8347fab7a.png
-albums.js: albums-853d8adc0eee9c6fbe4ce0b786de88c1.js
-albums/index.js: albums-853d8adc0eee9c6fbe4ce0b786de88c1.js
+albums.js: albums-6cf11b6bcc7b3f7f50972061549bd900.js
+albums/index.js: albums-6cf11b6bcc7b3f7f50972061549bd900.js
 application.js: application-c3c4b779bd3491a006ae813dfb428ff5.js
 application/index.js: application-c3c4b779bd3491a006ae813dfb428ff5.js
 galleria.helper.js: galleria.helper-ae33ac55ea71af214a48d3631bf4d377.js
