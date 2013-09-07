@@ -73,8 +73,8 @@ sort-num-asc.png: sort-num-asc-657592640f7df25d989b97d7e450f28d.png
 sort-num-asc/index.png: sort-num-asc-657592640f7df25d989b97d7e450f28d.png
 sort-num-desc.png: sort-num-desc-2f75af7d59d271d24b7e2aa8347fab7a.png
 sort-num-desc/index.png: sort-num-desc-2f75af7d59d271d24b7e2aa8347fab7a.png
-albums.js: albums-4812721fc1799a3b44805f316a2ab19d.js
-albums/index.js: albums-4812721fc1799a3b44805f316a2ab19d.js
+albums.js: albums-159b2f853a2dfeafefe256f129cb6369.js
+albums/index.js: albums-159b2f853a2dfeafefe256f129cb6369.js
 application.js: application-c3c4b779bd3491a006ae813dfb428ff5.js
 application/index.js: application-c3c4b779bd3491a006ae813dfb428ff5.js
 galleria.helper.js: galleria.helper-ae33ac55ea71af214a48d3631bf4d377.js
@@ -103,8 +103,8 @@ new.css: new-6334276e2929bcd8c63b547be897cbac.css
 new/index.css: new-6334276e2929bcd8c63b547be897cbac.css
 people.css: people-ef01202779e003936a3d22623e307b06.css
 people/index.css: people-ef01202779e003936a3d22623e307b06.css
-photos.css: photos-d120906a1c24c17e2f0e072f88ae5fd1.css
-photos/index.css: photos-d120906a1c24c17e2f0e072f88ae5fd1.css
+photos.css: photos-4d2bdcf5b32fe9e8219c8d649a59ef08.css
+photos/index.css: photos-4d2bdcf5b32fe9e8219c8d649a59ef08.css
 scaffolds.css: scaffolds-4e1c83aee4efc6dfda6f86e06a0bab7e.css
 scaffolds/index.css: scaffolds-4e1c83aee4efc6dfda6f86e06a0bab7e.css
 static_pages.css: static_pages-0e897765f8073759598dcf4fb90b430a.css

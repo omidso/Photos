@@ -63,9 +63,12 @@ function processAlbums(piclist)
         var imgstr= '<div class=\"picimage\"' + pic.data + ' style=\"height:' + ht + 'px;width:' + wt + 'px;margin:' + border + 'px;background-image:url(' + pic.imageurl + ')\"></div>';
         var img= $(imgstr);
         var linkurl= pic.linkurl;
-        img.click(function() { location.href= linkurl; });
+        img.click(function() {
+            location.href= linkurl; 
+          });
         divcurrow.append(img);
         img.append(pic.info);
+        
         /*        
         img.on("mouseenter", (function() {
           $(".albuminfo", this).stop().animate({bottom:'60px'},{queue:false,duration:350}, 'bla');

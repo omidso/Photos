@@ -44,12 +44,13 @@ class PeopleController < ApplicationController
   end
   
   def person_photos
-    #name= params[:q];
-    #person= Person.where("name = ?", name)
     person= Person.find(params[:id])
+    piclist= person.photos.order('time DESC')
+    set_cur_piclist(piclist, 0)
+    
     if person
       respond_to do |format|
-        format.json {render :json => person.photos.order('time DESC') }
+        format.json {render :json => piclist }
       end
     end
   end

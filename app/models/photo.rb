@@ -1,4 +1,7 @@
 class Photo < ActiveRecord::Base
+  
+  # include ActsAsAdjacent
+  
   attr_accessible :name, :width, :height, :orientation, :onlineid,
                   :focallength, :fstop, :iso, :exposure, :flash, :make, :model,
                   :thumburl, :url, :largeurl, :time
@@ -25,5 +28,5 @@ class Photo < ActiveRecord::Base
     end
     return names
   end
-    
+
 end

@@ -41,15 +41,14 @@ $(function() {
     
     // get all the picture thumbnails
     $.getJSON("/album/photos.json", {id: id}, function(results) {
-      $.each(results, function () {
-        var photo= this;
+      $.each(results, function (index, photo) {
         
         pics.push({imageurl: photo.thumburl,
                    width: photo.width,
                    height: photo.height,
                    info: '<div class=\"picinfo\">' + photo.name + '</div>',
-                   linkurl: "/photos/" + photo.id,
-                   data: ' data-name=' + photo.onlinename + ' data-authkey=' + "auth"});
+                   linkurl: "/photos/" + photo.id
+                   });
       });
       processPage(pics);
     });

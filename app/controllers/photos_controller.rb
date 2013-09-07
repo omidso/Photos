@@ -1,9 +1,9 @@
 class PhotosController < ApplicationController
+  
   # GET /photos
   # GET /photos.json
   def index
     @photos = Photo.all
-    #@photos = Photo.where("path LIKE '%2000%'")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,18 +14,33 @@ class PhotosController < ApplicationController
   # GET /photos/1
   # GET /photos/1.json
   def show
-    @photo = Photo.find(params[:id])
+    @photo= Photo.find(params[:id])
+    id= params[:id].to_i
+    @piclist= get_cur_piclist
+    index= @piclist.index {
+      |x| x.id==id
+    }
+    if (index>0)
+      @prev= index-1
+    else
+      @prev= @piclist.length-1
+    end
+    if (index<(@piclist.length-1))
+      @next= index+1
+    else
+      @next= 0
+    end
 
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @photo }
     end
   end
-
+  
   # GET /photos/1/tags
   # GET /photos/1.json/tags
   def tags
-    @photo = Photo.find(params[:id])
+    @photo= Photo.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

@@ -24,6 +24,7 @@ class AlbumsController < ApplicationController
   
   def album_photos
     album = Album.find(params[:id])
+    set_cur_piclist(album.photos, 0)    
     
     respond_to do |format|
       format.json { render json: album.photos}

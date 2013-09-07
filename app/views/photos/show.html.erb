@@ -13,9 +13,16 @@
       </div>
     </div>
     <div class="span2">
+      <div class= "prevnext">
+        <%= link_to(image_tag(@piclist[@prev].thumburl), '/photos/'+@piclist[@prev].id.to_s) %>
+      </div>
+      <div class= "prevnext">
+        <%= link_to(image_tag(@piclist[@next].thumburl), '/photos/'+@piclist[@next].id.to_s) %>
+      </div>
+      </br>      
       <div class= "picture-info">
         <strong>Picture</strong></br>
-        <%= 'Album: ' + @photo.album.name %></br>
+        Album: <%= link_to @photo.album.name, album_path(@photo.album) %></br>
         <%= 'Date: ' + (@photo.time ? @photo.time.strftime("%B %-d, %Y") : '?') %></br>        
         <%= 'Name: ' + @photo.name %></br>
       </div>
